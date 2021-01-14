@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const Service = require('../services/auth');
 
-/* GET home page. */
-router.use('/api/auth', require('./auth'));
+router.post('/login', Service.login);
 
 module.exports = router;

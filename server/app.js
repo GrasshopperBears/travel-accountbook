@@ -11,6 +11,7 @@ dotenv.config();
 require('./models/tables/user');
 require('./models/tables/category');
 require('./models/tables/payment');
+require('./models/tables/trip');
 
 const indexRouter = require('./routes/index');
 
