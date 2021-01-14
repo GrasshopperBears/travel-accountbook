@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Service = require('../services/auth');
+const service = require('../services/auth');
 
-router.post('/login', Service.login);
+router.get('/is-auth', service.isAuth);
+router.post('/login', service.login);
 
 module.exports = router;

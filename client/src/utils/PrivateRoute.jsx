@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import CenterDiv from '@Components/common/CenterDiv';
+import service from '@services/auth';
+import CenterDiv from '@components/common/CenterDiv';
 import { Spin } from 'antd';
+import styled from 'styled-components';
 
 const PrivateRoute = ({ component, ...rest }) => {
   const [userAuthorized, setUserAuthorized] = useState({ pending: true, authorized: false });
 
   useEffect(() => {
-    console.log(111);
+    if (!localStorage.getItem('token')) {
+      setUserAuthorized({ pending: false, authorized: false });
+      return;
+    }
+    isUserAuthorized();
   }, []);
 
+  const isUserAuthorized = async () => {
+    const response = await service.isAuth();
+  };
+
   return userAuthorized.pending ? (
-    <CenterDiv>
+    <SpinWrapper>
       <Spin size='large' />
-    </CenterDiv>
+    </SpinWrapper>
   ) : userAuthorized.authorized ? (
     <Route {...rest} render={(props) => React.createElement(component, props)} />
   ) : (
@@ -30,5 +40,7 @@ const PrivateRoute = ({ component, ...rest }) => {
     />
   );
 };
+
+const SpinWrapper = styled(CenterDiv)``;
 
 export default PrivateRoute;

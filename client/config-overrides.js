@@ -3,10 +3,11 @@ const path = require('path');
 
 module.exports = override(
   addWebpackAlias({
-    '@Components': path.resolve(__dirname, 'src/components'),
-    '@Pages': path.resolve(__dirname, 'src/pages'),
-    '@Services': path.resolve(__dirname, 'src/services'),
-    '@Stores': path.resolve(__dirname, 'src/stores'),
-    '@Utils': path.resolve(__dirname, 'src/utils'),
+    '@components': path.resolve(__dirname, 'src/components'),
+    '@pages': path.resolve(__dirname, 'src/pages'),
+    '@services': path.resolve(__dirname, 'src/services'),
+    '@stores': path.resolve(__dirname, 'src/stores'),
+    '@utils': path.resolve(__dirname, 'src/utils'),
+    '@layouts': path.resolve(__dirname, 'src/layouts'),
   }),
 );
