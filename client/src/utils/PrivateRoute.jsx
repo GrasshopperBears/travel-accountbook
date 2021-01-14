@@ -17,7 +17,10 @@ const PrivateRoute = ({ component, ...rest }) => {
   }, []);
 
   const isUserAuthorized = async () => {
-    const response = await service.isAuth();
+    const {
+      data: { authorized },
+    } = await service.isAuth();
+    setUserAuthorized({ pending: false, authorized });
   };
 
   return userAuthorized.pending ? (

@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import service from '@services/auth';
 import LoginPageLayout from '@layouts/LoginPageLayout';
 import CenterDiv from '@components/common/CenterDiv';
 import { Button } from 'antd';
 
 const LoginPage = () => {
+  const history = useHistory();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) isUserAuthorized();
+  }, []);
+
+  const isUserAuthorized = async () => {
+    const {
+      data: { authorized },
+    } = await service.isAuth();
+    if (authorized) history.push('/');
+  };
+
   return (
     <LoginPageLayout>
       <Wrapper>
