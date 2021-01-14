@@ -1,0 +1,40 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": ["prettier/react", "eslint:recommended", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "linebreak-style": 0,
+    "import/no-dynamic-require": 0,
+    "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
+    "global-require": 0,
+    "import/no-extraneous-dependencies": 0,
+    "jsx-quotes": ["error", "prefer-single"],
+    "react/jsx-props-no-spreading": 0,
+    "react/forbid-prop-types": 0
+  },
+  "settings": {
+    "import/resolver": {
+      // "webpack": {
+      //   "config": "./frontend/webpack.config.common.js"
+      // },
+      "alias": {
+        "map": [
+          // ["@layouts", "./frontend/layouts"]
+        ]
+      }
+    }
+  }
+}
