@@ -7,6 +7,11 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+// import database table
+require('./models/tables/user');
+require('./models/tables/category');
+require('./models/tables/payment');
+
 const indexRouter = require('./routes/index');
 
 const app = express();
