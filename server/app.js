@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ require('./models/tables/payment');
 require('./models/tables/trip');
 
 const indexRouter = require('./routes/index');
+const corsOptions = { origin: process.env.CLIENT_ADDR };
 
 const app = express();
 
@@ -21,6 +23,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

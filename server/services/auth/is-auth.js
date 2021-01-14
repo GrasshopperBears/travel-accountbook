@@ -1,3 +1,4 @@
 module.exports = async (req, res) => {
-  res.json({ authorized: true });
+  const authorized = !!req.body.uid;
+  res.json({ authorized: authorized });
 };

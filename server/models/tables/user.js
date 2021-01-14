@@ -8,9 +8,15 @@ const User = sequelize.define('User', {
     autoIncrement: true,
     allowNull: false,
   },
-  email: {
+  uid: {
     type: Sequelize.STRING(45),
     allowNull: false,
+  },
+  nickname: {
+    type: Sequelize.STRING(45),
+  },
+  thumbnail_img_url: {
+    type: Sequelize.STRING(200),
   },
   password: {
     type: Sequelize.STRING(60),
