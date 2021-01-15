@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import styled from 'styled-components';
-import { Layout, Menu } from 'antd';
+import { Layout, Drawer } from 'antd';
 import Sidebar from '@components/common/Sidebar';
+import LayoutHeader from '@components/common/Header';
 
 const { Header, Sider, Content } = Layout;
 
 const MainLayout = ({ children }) => {
+  const [showSidebar, setShowSidebar] = useState(false);
+  const onShow = () => {
+    setShowSidebar(true);
+  };
+  const onClose = () => {
+    setShowSidebar(false);
+  };
+
   return (
     <Wrapper>
       <BrowserView style={{ width: '100%', height: '100%' }}>
@@ -15,14 +24,23 @@ const MainLayout = ({ children }) => {
             <Sidebar />
           </Sider>
           <Layout>
-            <Header>Header</Header>
+            <Header>
+              <LayoutHeader />
+            </Header>
             <Content>{children}</Content>
           </Layout>
         </Layout>
       </BrowserView>
       <MobileView>
-        <b> This is rendered only on mobile </b>
-        {children}
+        <Drawer visible={showSidebar} onClose={onClose} placement='left' closeIcon={''}>
+          <Sidebar />
+        </Drawer>
+        <Layout>
+          <Header>
+            <LayoutHeader isMobile onClickMenu={onShow} />
+          </Header>
+          <Content>{children}</Content>
+        </Layout>
       </MobileView>
     </Wrapper>
   );

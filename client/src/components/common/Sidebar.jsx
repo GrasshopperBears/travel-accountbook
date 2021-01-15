@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { setTrips } from '@stores/actions';
 import service from '@services/trip';
-import { Menu, Layout } from 'antd';
+import { Menu, Layout, Button } from 'antd';
 import styled from 'styled-components';
+import { PlusCircleOutlined } from '@ant-design/icons';
 
 const { Content, Footer } = Layout;
 
@@ -15,7 +16,6 @@ const Sidebar = (props) => {
 
   const getTrips = async () => {
     const result = await service.getTrips();
-    console.log(result);
     props.setTrips(result);
   };
   const logout = () => {
@@ -30,6 +30,9 @@ const Sidebar = (props) => {
           {trips.map((trip) => (
             <Menu.Item key={trip.id}>{trip.title}</Menu.Item>
           ))}
+          <NewTripBtn type='dashed' icon={<PlusCircleOutlined />}>
+            여행 추가하기
+          </NewTripBtn>
         </Menu>
       </Content>
       <LogoutBtn onClick={logout}>로그아웃</LogoutBtn>
@@ -37,6 +40,11 @@ const Sidebar = (props) => {
   );
 };
 
+const NewTripBtn = styled(Button)`
+  margin: 0 5%;
+  width: 90%;
+  height: 3rem;
+`;
 const LogoutBtn = styled(Footer)`
   text-align: center;
   font-size: 1rem;
