@@ -60,7 +60,7 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
     <Button key='cancel' onClick={closeModal}>
       취소
     </Button>,
-    <Button key='submit' type='primary' onClick={modifyTripHandler}>
+    <Button key='submit' type='primary' onClick={modifying ? modifyTripHandler : createNewTrip}>
       확인
     </Button>,
   ];
@@ -71,7 +71,7 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
       visible={visible}
       onCancel={closeModal}
       onOk={createNewTrip}
-      footer={buttons}
+      footer={modifying ? buttons : buttons.slice(1)}
     >
       <Form form={form} onFinish={onFinish}>
         <Form.Item

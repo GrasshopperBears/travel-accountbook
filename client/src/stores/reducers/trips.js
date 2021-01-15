@@ -13,7 +13,7 @@ const trips = (state = initialState, action) => {
       return { init: true, trips, selectedId: trips.length ? trips[0].id : undefined };
     case ADD_TRIP:
       const { newTrip } = action.payload;
-      return { ...state, trips: [newTrip, ...state.trips] };
+      return { ...state, trips: [newTrip, ...state.trips], selectedId: newTrip.id };
     case MODIFY_TRIP:
       const { id, title, locationName } = action.payload;
       return {

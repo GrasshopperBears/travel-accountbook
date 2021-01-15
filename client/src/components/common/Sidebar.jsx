@@ -43,7 +43,7 @@ const Sidebar = ({ setTrips, selectTrip }) => {
         {init && (
           <Menu
             mode='inline'
-            defaultSelectedKeys={[trips.length ? `${selectedId}` : '']}
+            selectedKeys={[trips.length ? `${selectedId}` : '']}
             style={{ height: '100%', borderRight: 0 }}
             onSelect={onSelect}
           >
