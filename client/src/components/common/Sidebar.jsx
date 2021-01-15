@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { setTrips } from '@stores/actions';
 import service from '@services/trip';
 import { Menu, Layout, Button } from 'antd';
 import styled from 'styled-components';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import NewTripModal from '@components/trip/NewTripModal';
 
 const { Content, Footer } = Layout;
 
 const Sidebar = (props) => {
   const { init, trips } = useSelector((state) => state.trips);
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     if (!init) getTrips();
   }, []);
@@ -22,6 +24,12 @@ const Sidebar = (props) => {
     window.localStorage.removeItem('token');
     window.location.href = '/login';
   };
+  const clickNewTripBtn = () => {
+    setShowModal(true);
+  };
+  const closeNewTripModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <Layout style={{ height: '100%' }}>
@@ -30,12 +38,13 @@ const Sidebar = (props) => {
           {trips.map((trip) => (
             <Menu.Item key={trip.id}>{trip.title}</Menu.Item>
           ))}
-          <NewTripBtn type='dashed' icon={<PlusCircleOutlined />}>
+          <NewTripBtn onClick={clickNewTripBtn} type='dashed' icon={<PlusCircleOutlined />}>
             여행 추가하기
           </NewTripBtn>
         </Menu>
       </Content>
       <LogoutBtn onClick={logout}>로그아웃</LogoutBtn>
+      <NewTripModal visible={showModal} cancelHandler={closeNewTripModal} />
     </Layout>
   );
 };

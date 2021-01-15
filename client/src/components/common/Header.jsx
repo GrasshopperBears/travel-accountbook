@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const Header = ({ isMobile, onClickMenu }) => {
   return (
     <Row>
-      <Col flex='1 1'>
+      <Col>
         <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['1']}>
           <HeaderItem key='1' isMobile>
             전체
