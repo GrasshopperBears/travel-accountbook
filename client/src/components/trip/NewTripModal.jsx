@@ -1,16 +1,34 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Modal, Form, Input } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect, useSelector } from 'react-redux';
+import { Modal, Form, Input, Button } from 'antd';
 import service from '@services/trip';
-import { addTrip } from '@stores/actions';
+import { addTrip, modifyTrip, deleteTrip } from '@stores/actions';
 
-const NewTripModal = ({ visible, closeModal, addTrip }) => {
+const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyTrip, deleteTrip }) => {
+  const { trips, selectedId } = useSelector((state) => state.trips);
+  const [originalTrip, setOriginalTrip] = useState(undefined);
   const [form] = Form.useForm();
-  const createNewTrip = () => {
+
+  useEffect(() => {
+    if (visible && modifying) {
+      const currentTrip = trips.find((trip) => trip.id === selectedId);
+      if (currentTrip) {
+        const { title, location_name: locationName } = currentTrip;
+        form.setFieldsValue({ title, locationName });
+        setOriginalTrip(currentTrip);
+      }
+    }
+  }, [visible, modifying, trips, selectedId, form]);
+
+  const createNewTrip = useCallback(() => {
     form.submit();
-  };
-  const onFinish = async (values) => {
+  }, [form]);
+  const onFinish = (values) => {
     const { title, locationName } = values;
+    if (modifying) modifyTripHandler(title, locationName);
+    else createTripHandler(title, locationName);
+  };
+  const createTripHandler = async (title, locationName) => {
     const response = await service.createTrip(title, locationName);
     if (response) {
       addTrip(response);
@@ -18,9 +36,43 @@ const NewTripModal = ({ visible, closeModal, addTrip }) => {
       form.resetFields();
     }
   };
+  const modifyTripHandler = async (title, locationName) => {
+    const { id: tripId } = originalTrip;
+    const response = await service.modifyTrip(tripId, title, locationName);
+    if (response.success) {
+      modifyTrip(tripId, title, locationName);
+      closeModal();
+    } else alert('수정 중 오류가 발생했습니다');
+  };
+  const deleteTripHandler = async () => {
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    const { id: tripId } = originalTrip;
+    const response = await service.deleteTrip(tripId);
+    if (response.success) {
+      deleteTrip(tripId);
+      closeModal();
+    } else alert('삭제 중 오류가 발생했습니다');
+  };
+  const buttons = [
+    <Button key='cancel' type='danger' onClick={deleteTripHandler} style={{ float: 'left' }}>
+      삭제
+    </Button>,
+    <Button key='cancel' onClick={closeModal}>
+      취소
+    </Button>,
+    <Button key='submit' type='primary' onClick={modifyTripHandler}>
+      확인
+    </Button>,
+  ];
 
   return (
-    <Modal title='여행 추가하기' visible={visible} onCancel={closeModal} onOk={createNewTrip}>
+    <Modal
+      title={`여행 ${modifying ? '수정/삭제' : '추가'}하기`}
+      visible={visible}
+      onCancel={closeModal}
+      onOk={createNewTrip}
+      footer={buttons}
+    >
       <Form form={form} onFinish={onFinish}>
         <Form.Item
           label='여행 이름'
@@ -44,4 +96,4 @@ const NewTripModal = ({ visible, closeModal, addTrip }) => {
   );
 };
 
-export default connect(null, { addTrip })(NewTripModal);
+export default connect(null, { addTrip, modifyTrip, deleteTrip })(NewTripModal);

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { setTrips } from '@stores/actions';
+import { setTrips, selectTrip } from '@stores/actions';
 import service from '@services/trip';
 import { Menu, Layout, Button } from 'antd';
 import styled from 'styled-components';
@@ -9,39 +9,52 @@ import NewTripModal from '@components/trip/NewTripModal';
 
 const { Content, Footer } = Layout;
 
-const Sidebar = (props) => {
-  const { init, trips } = useSelector((state) => state.trips);
+const Sidebar = ({ setTrips, selectTrip }) => {
+  const { init, trips, selectedId } = useSelector((state) => state.trips);
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     if (!init) getTrips();
   }, []);
 
-  const getTrips = async () => {
+  const getTrips = useCallback(async () => {
     const result = await service.getTrips();
-    props.setTrips(result);
-  };
-  const logout = () => {
+    setTrips(result);
+  }, [setTrips]);
+  const logout = useCallback(() => {
     window.localStorage.removeItem('token');
     window.location.href = '/login';
-  };
-  const clickNewTripBtn = () => {
+  }, []);
+  const clickNewTripBtn = useCallback(() => {
     setShowModal(true);
-  };
-  const closeNewTripModal = () => {
+  }, []);
+  const closeNewTripModal = useCallback(() => {
     setShowModal(false);
-  };
+  }, []);
+  const onSelect = useCallback(
+    ({ key }) => {
+      selectTrip(key);
+    },
+    [selectTrip],
+  );
 
   return (
     <Layout style={{ height: '100%' }}>
       <Content>
-        <Menu mode='inline' defaultSelectedKeys={['1']} style={{ height: '100%', borderRight: 0 }}>
-          {trips.map((trip) => (
-            <Menu.Item key={trip.id}>{trip.title}</Menu.Item>
-          ))}
-          <NewTripBtn onClick={clickNewTripBtn} type='dashed' icon={<PlusCircleOutlined />}>
-            여행 추가하기
-          </NewTripBtn>
-        </Menu>
+        {init && (
+          <Menu
+            mode='inline'
+            defaultSelectedKeys={[trips.length ? `${selectedId}` : '']}
+            style={{ height: '100%', borderRight: 0 }}
+            onSelect={onSelect}
+          >
+            {trips.map((trip) => (
+              <Menu.Item key={trip.id}>{trip.title}</Menu.Item>
+            ))}
+            <NewTripBtn onClick={clickNewTripBtn} type='dashed' icon={<PlusCircleOutlined />}>
+              여행 추가하기
+            </NewTripBtn>
+          </Menu>
+        )}
       </Content>
       <LogoutBtn onClick={logout}>로그아웃</LogoutBtn>
       <NewTripModal visible={showModal} closeModal={closeNewTripModal} />
@@ -62,4 +75,4 @@ const LogoutBtn = styled(Footer)`
   }
 `;
 
-export default connect(null, { setTrips })(Sidebar);
+export default connect(null, { setTrips, selectTrip })(Sidebar);
