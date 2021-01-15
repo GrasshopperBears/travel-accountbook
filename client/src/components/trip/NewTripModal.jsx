@@ -20,10 +20,11 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
     }
   }, [visible, modifying, trips, selectedId, form]);
 
-  const createNewTrip = useCallback(() => {
+  const clickOkHandler = useCallback(() => {
     form.submit();
   }, [form]);
   const onFinish = (values) => {
+    closeModal();
     const { title, locationName } = values;
     if (modifying) modifyTripHandler(title, locationName);
     else createTripHandler(title, locationName);
@@ -32,25 +33,20 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
     const response = await service.createTrip(title, locationName);
     if (response) {
       addTrip(response);
-      closeModal();
-      form.resetFields();
-    }
+    } else alert('추가 중 오류가 발생했습니다');
   };
   const modifyTripHandler = async (title, locationName) => {
     const { id: tripId } = originalTrip;
     const response = await service.modifyTrip(tripId, title, locationName);
-    if (response.success) {
-      modifyTrip(tripId, title, locationName);
-      closeModal();
-    } else alert('수정 중 오류가 발생했습니다');
+    if (response.success) modifyTrip(tripId, title, locationName);
   };
   const deleteTripHandler = async () => {
     if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    closeModal();
     const { id: tripId } = originalTrip;
     const response = await service.deleteTrip(tripId);
     if (response.success) {
       deleteTrip(tripId);
-      closeModal();
     } else alert('삭제 중 오류가 발생했습니다');
   };
   const buttons = [
@@ -60,7 +56,7 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
     <Button key='cancel' onClick={closeModal}>
       취소
     </Button>,
-    <Button key='submit' type='primary' onClick={modifying ? modifyTripHandler : createNewTrip}>
+    <Button key='submit' type='primary' onClick={clickOkHandler}>
       확인
     </Button>,
   ];
@@ -70,7 +66,6 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
       title={`여행 ${modifying ? '수정/삭제' : '추가'}하기`}
       visible={visible}
       onCancel={closeModal}
-      onOk={createNewTrip}
       footer={modifying ? buttons : buttons.slice(1)}
     >
       <Form form={form} onFinish={onFinish}>
@@ -95,5 +90,8 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
     </Modal>
   );
 };
+
+const DELETE_LOADING = 'DELETE_LOADING';
+const OK_LOADING = 'OK_LOADING';
 
 export default connect(null, { addTrip, modifyTrip, deleteTrip })(NewTripModal);
