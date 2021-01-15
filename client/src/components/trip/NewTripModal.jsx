@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Modal, Form, Input } from 'antd';
 import service from '@services/trip';
+import { addTrip } from '@stores/actions';
 
-const NewTripModal = ({ visible, closeModal }) => {
+const NewTripModal = ({ visible, closeModal, addTrip }) => {
   const [form] = Form.useForm();
   const createNewTrip = () => {
     form.submit();
@@ -11,6 +13,7 @@ const NewTripModal = ({ visible, closeModal }) => {
     const { title, locationName } = values;
     const response = await service.createTrip(title, locationName);
     if (response) {
+      addTrip(response);
       closeModal();
       form.resetFields();
     }
@@ -41,4 +44,4 @@ const NewTripModal = ({ visible, closeModal }) => {
   );
 };
 
-export default NewTripModal;
+export default connect(null, { addTrip })(NewTripModal);
