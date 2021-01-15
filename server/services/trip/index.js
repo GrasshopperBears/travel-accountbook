@@ -1,3 +1,4 @@
 const getTrips = require('./get-trips');
+const createTrip = require('./create-trip');
 
-module.exports = { getTrips };
+module.exports = { getTrips, createTrip };

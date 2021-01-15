@@ -44,7 +44,7 @@ const Sidebar = (props) => {
         </Menu>
       </Content>
       <LogoutBtn onClick={logout}>로그아웃</LogoutBtn>
-      <NewTripModal visible={showModal} cancelHandler={closeNewTripModal} />
+      <NewTripModal visible={showModal} closeModal={closeNewTripModal} />
     </Layout>
   );
 };
