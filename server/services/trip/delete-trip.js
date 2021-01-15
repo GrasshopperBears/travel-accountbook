@@ -5,7 +5,6 @@ const deleteTrip = async (req, res) => {
   const { tripId: id } = req.params;
   try {
     const affectedRows = await Trip.destroy({ where: { user_id: uid, id } });
-    console.log(affectedRows);
     if (affectedRows) res.json({ success: true });
     else res.json({ success: false });
   } catch (e) {
