@@ -3,6 +3,8 @@ import { LOAD_PAYMENTS, ADD_PAYMENT, MODIFY_PAYMENT, DELETE_PAYMENT } from '../a
 const initialState = {
   init: false,
   payments: [],
+  initTotalAmount: false,
+  totalAmount: 0,
 };
 
 const payments = (state = initialState, action) => {
