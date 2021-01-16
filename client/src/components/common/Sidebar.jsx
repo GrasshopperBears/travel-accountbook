@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { setTrips, selectTrip } from '@stores/actions';
-import service from '@services/trip';
 import { Menu, Layout, Button } from 'antd';
 import styled from 'styled-components';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -9,17 +8,10 @@ import NewTripModal from '@components/trip/NewTripModal';
 
 const { Content, Footer } = Layout;
 
-const Sidebar = ({ setTrips, selectTrip, isMobile = false, closeSidebar }) => {
+const Sidebar = ({ selectTrip, isMobile = false, closeSidebar }) => {
   const { init, trips, selectedTrip } = useSelector((state) => state.trips);
   const [showModal, setShowModal] = useState(false);
-  useEffect(() => {
-    if (!init) getTrips();
-  }, []);
 
-  const getTrips = useCallback(async () => {
-    const result = await service.getTrips();
-    setTrips(result);
-  }, [setTrips]);
   const logout = useCallback(() => {
     window.localStorage.removeItem('token');
     window.location.href = '/login';

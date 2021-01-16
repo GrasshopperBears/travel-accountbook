@@ -1,6 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserView, isMobile, MobileView } from 'react-device-detect';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { setTrips } from '@stores/actions';
+import service from '@services/trip';
 import styled from 'styled-components';
 import { Layout, Drawer, Typography, Button } from 'antd';
 import Sidebar from '@components/common/Sidebar';
@@ -10,10 +12,18 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
 
-const MainLayout = ({ children }) => {
-  const { selectedTrip } = useSelector((state) => state.trips);
+const MainLayout = ({ setTrips, children }) => {
+  const { init, selectedTrip } = useSelector((state) => state.trips);
   const [showSidebar, setShowSidebar] = useState(false);
   const [showAddPaymentModal, setShowAddPaymentModal] = useState(false);
+  useEffect(() => {
+    if (!init) getTrips();
+  }, []);
+
+  const getTrips = useCallback(async () => {
+    const result = await service.getTrips();
+    setTrips(result);
+  }, [setTrips]);
   const onShowSidebar = useCallback(() => {
     setShowSidebar(true);
   }, []);
@@ -93,4 +103,4 @@ const AddPaymentBtn = styled(Button)`
   bottom: ${({ isMobile }) => (isMobile ? '2rem' : '3rem')};
 `;
 
-export default MainLayout;
+export default connect(null, { setTrips })(MainLayout);

@@ -8,6 +8,7 @@ import {
   ADD_CATEGORY,
   MODIFY_CATEGORY,
   DELETE_CATEGORY,
+  SET_TOTAL_AMOUNT,
   LOAD_PAYMENTS,
   ADD_PAYMENT,
   MODIFY_PAYMENT,
@@ -55,6 +56,10 @@ export const deleteCategory = (categoryId) => ({
 });
 
 // 지출 내역 관련
+export const setTotalAmount = (totalAmount) => ({
+  type: SET_TOTAL_AMOUNT,
+  payload: { totalAmount },
+});
 export const loadPayments = (payments) => ({
   type: LOAD_PAYMENTS,
   payload: { payments },

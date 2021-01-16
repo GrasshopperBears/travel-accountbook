@@ -1,4 +1,4 @@
-import { LOAD_PAYMENTS, ADD_PAYMENT, MODIFY_PAYMENT, DELETE_PAYMENT } from '../actionTypes';
+import { SET_TOTAL_AMOUNT, LOAD_PAYMENTS, ADD_PAYMENT, MODIFY_PAYMENT, DELETE_PAYMENT } from '../actionTypes';
 
 const initialState = {
   init: false,
@@ -9,9 +9,12 @@ const initialState = {
 
 const payments = (state = initialState, action) => {
   switch (action.type) {
+    case SET_TOTAL_AMOUNT:
+      const { totalAmount } = action.payload;
+      return { ...state, initTotalAmount: true, totalAmount };
     case LOAD_PAYMENTS:
       const { payments } = action.payload;
-      return { init: true, payments: [...payments, ...state.payments] };
+      return { ...state, init: true, payments: [...payments, ...state.payments] };
     case ADD_PAYMENT:
       const { newPayment } = action.payload;
       return { ...state, payments: [newPayment, ...state.payments] };
