@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { Modal, Form, Input, InputNumber, DatePicker } from 'antd';
+import { Modal, Form, Input, InputNumber, DatePicker, Select } from 'antd';
 
+const { Option } = Select;
 const layout = {
   labelCol: {
     span: 4,
@@ -13,6 +15,8 @@ const layout = {
 
 const AddPaymentModal = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
+  const { init, categories } = useSelector((state) => state.categories);
+  const onChangeCategory = (value) => {};
   const addPaymentHandler = () => {};
 
   return (
@@ -46,6 +50,11 @@ const AddPaymentModal = ({ visible, onCancel }) => {
           rules={[{ required: true, message: '언제 사용했는지 알려주세요!' }]}
         >
           <DatePicker style={{ width: '100%' }} />
+        </Form.Item>
+        <Form.Item label='카테고리' name='category'>
+          <Select placeholder='카테고리를 선택해주세요' onChange={onChangeCategory} allowClear>
+            {init && categories.map((category) => <Option value={category.id}>{category.title}</Option>)}
+          </Select>
         </Form.Item>
         <Form.Item label='장소 이름' name='placeName'>
           <Input />
