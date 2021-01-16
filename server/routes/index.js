@@ -4,5 +4,6 @@ const authorizeToken = require('../services/utils/authorize-token');
 
 router.use('/api/auth', require('./auth'));
 router.use('/api/trip', authorizeToken, require('./trip'));
+router.use('/api/category', authorizeToken, require('./category'));
 
 module.exports = router;

@@ -29,7 +29,9 @@ const Header = ({ isMobile = false, onClickMenu }) => {
             {isMobile && (
               <>
                 <Menu.Item key='5'>카테고리 수정</Menu.Item>
-                <Menu.Item key='6'>여행 수정</Menu.Item>
+                <Menu.Item key='6' onClick={openModifyTripModal}>
+                  여행 수정/삭제
+                </Menu.Item>
               </>
             )}
           </Menu>
