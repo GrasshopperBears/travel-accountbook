@@ -4,15 +4,23 @@ import { Menu, Row, Col, Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import NewTripModal from '@components/trip/NewTripModal';
+import ModifyCategoryModal from '@components/category/ModifyCategoryModal';
 
 const Header = ({ isMobile = false, onClickMenu }) => {
   const { selectedId } = useSelector((state) => state.trips);
   const [showModifyTripModal, setShowModifyTripModal] = useState(false);
+  const [showModifyCategoryModal, setShowModifyCategoryModal] = useState(false);
   const openModifyTripModal = useCallback(() => {
     setShowModifyTripModal(true);
   }, []);
   const closeModifyTripModal = useCallback(() => {
     setShowModifyTripModal(false);
+  }, []);
+  const openModifyCategoryModal = useCallback(() => {
+    setShowModifyCategoryModal(true);
+  }, []);
+  const closeModifyCategoryModal = useCallback(() => {
+    setShowModifyCategoryModal(false);
   }, []);
 
   return (
@@ -28,7 +36,9 @@ const Header = ({ isMobile = false, onClickMenu }) => {
             <Menu.Item key='4'>장소</Menu.Item>
             {isMobile && (
               <>
-                <Menu.Item key='5'>카테고리 수정</Menu.Item>
+                <Menu.Item key='5' onClick={openModifyCategoryModal}>
+                  카테고리 수정
+                </Menu.Item>
                 <Menu.Item key='6' onClick={openModifyTripModal}>
                   여행 수정/삭제
                 </Menu.Item>
@@ -45,7 +55,9 @@ const Header = ({ isMobile = false, onClickMenu }) => {
             <Col flex='auto'></Col>
             <Col>
               <Menu theme='dark' mode='horizontal' selectable={false}>
-                <Menu.Item key='1'>카테고리 수정</Menu.Item>
+                <Menu.Item key='1' onClick={openModifyCategoryModal}>
+                  카테고리 수정
+                </Menu.Item>
                 {selectedId && (
                   <Menu.Item onClick={openModifyTripModal} key='2'>
                     여행 수정/삭제
@@ -57,6 +69,7 @@ const Header = ({ isMobile = false, onClickMenu }) => {
         )}
       </Row>
       <NewTripModal visible={showModifyTripModal} closeModal={closeModifyTripModal} modifying />
+      <ModifyCategoryModal visible={showModifyCategoryModal} closeModal={closeModifyCategoryModal} />
     </>
   );
 };
