@@ -91,7 +91,4 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
   );
 };
 
-const DELETE_LOADING = 'DELETE_LOADING';
-const OK_LOADING = 'OK_LOADING';
-
 export default connect(null, { addTrip, modifyTrip, deleteTrip })(NewTripModal);

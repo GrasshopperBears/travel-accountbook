@@ -69,7 +69,11 @@ const Header = ({ isMobile = false, onClickMenu }) => {
         )}
       </Row>
       <NewTripModal visible={showModifyTripModal} closeModal={closeModifyTripModal} modifying />
-      <ModifyCategoryModal visible={showModifyCategoryModal} closeModal={closeModifyCategoryModal} />
+      <ModifyCategoryModal
+        visible={showModifyCategoryModal}
+        closeModal={closeModifyCategoryModal}
+        isMobile={isMobile}
+      />
     </>
   );
 };
