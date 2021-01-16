@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { Modal, Form, Input, InputNumber, DatePicker, Select } from 'antd';
+import service from '@services/payment';
 
 const { Option } = Select;
 const layout = {
@@ -16,8 +17,10 @@ const layout = {
 const AddPaymentModal = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
   const { init, categories } = useSelector((state) => state.categories);
-  const onChangeCategory = (value) => {};
-  const addPaymentHandler = () => {};
+  const addPaymentHandler = (values) => {
+    const { title, amount, date: dateInMoment, category, placeName, memo } = values;
+    const date = dateInMoment.format('YYYY-MM-DD');
+  };
 
   return (
     <Modal
@@ -26,9 +29,16 @@ const AddPaymentModal = ({ visible, onCancel }) => {
       title='지출 내역 추가하기'
       cancelText='취소'
       okText='추가하기'
-      onOk={addPaymentHandler}
+      onOk={() => {
+        form.submit();
+      }}
     >
-      <Form {...layout} form={form} initialValues={{ amount: 0, date: moment() }}>
+      <Form
+        {...layout}
+        form={form}
+        initialValues={{ amount: 0, date: moment() }}
+        onFinish={addPaymentHandler}
+      >
         <Form.Item
           label='지출 내역'
           name='title'
@@ -52,7 +62,7 @@ const AddPaymentModal = ({ visible, onCancel }) => {
           <DatePicker style={{ width: '100%' }} />
         </Form.Item>
         <Form.Item label='카테고리' name='category'>
-          <Select placeholder='카테고리를 선택해주세요' onChange={onChangeCategory} allowClear>
+          <Select placeholder='카테고리를 선택해주세요' allowClear>
             {init && categories.map((category) => <Option value={category.id}>{category.title}</Option>)}
           </Select>
         </Form.Item>
