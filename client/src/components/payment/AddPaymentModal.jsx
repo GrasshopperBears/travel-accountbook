@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { Modal, Form, Input, InputNumber, DatePicker, Select } from 'antd';
@@ -16,10 +16,22 @@ const layout = {
 
 const AddPaymentModal = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const { selectedTrip } = useSelector((state) => state.trips);
   const { init, categories } = useSelector((state) => state.categories);
-  const addPaymentHandler = (values) => {
-    const { title, amount, date: dateInMoment, category, placeName, memo } = values;
-    const date = dateInMoment.format('YYYY-MM-DD');
+
+  const addPaymentHandler = async (values) => {
+    setIsLoading(true);
+    const response = await service.createPayment({
+      ...values,
+      date: values.date.format('YYYY-MM-DD'),
+      tripId: selectedTrip.id,
+    });
+    if (response) {
+      form.resetFields();
+      onCancel();
+      setIsLoading(false);
+    } else alert('추가 중 오류가 발생했습니다');
   };
 
   return (
@@ -32,13 +44,10 @@ const AddPaymentModal = ({ visible, onCancel }) => {
       onOk={() => {
         form.submit();
       }}
+      okButtonProps={{ loading: isLoading }}
+      cancelButtonProps={{ disabled: isLoading }}
     >
-      <Form
-        {...layout}
-        form={form}
-        initialValues={{ amount: 0, date: moment() }}
-        onFinish={addPaymentHandler}
-      >
+      <Form {...layout} form={form} initialValues={{ date: moment() }} onFinish={addPaymentHandler}>
         <Form.Item
           label='지출 내역'
           name='title'
@@ -50,7 +59,6 @@ const AddPaymentModal = ({ visible, onCancel }) => {
           label='금액'
           name='amount'
           rules={[{ required: true, message: '얼마를 사용했는지 알려주세요!' }]}
-          defaultValues={0}
         >
           <InputNumber style={{ width: '100%' }} />
         </Form.Item>
