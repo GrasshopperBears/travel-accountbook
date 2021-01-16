@@ -41,7 +41,7 @@ const MainLayout = ({ children }) => {
           <Header>
             <LayoutHeader isMobile onClickMenu={onShow} />
           </Header>
-          <Title>{selectedTrip.title}</Title>
+          {selectedTrip && <Title>{selectedTrip.title}</Title>}
           <MainContent>{children}</MainContent>
         </Layout>
       </MobileView>

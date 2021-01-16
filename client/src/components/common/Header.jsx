@@ -10,7 +10,7 @@ import ModifyCategoryModal from '@components/category/ModifyCategoryModal';
 const Header = ({ isMobile = false, onClickMenu }) => {
   const history = useHistory();
   const location = useLocation();
-  const { selectedId } = useSelector((state) => state.trips);
+  const { selectedTrip } = useSelector((state) => state.trips);
   const [showModifyTripModal, setShowModifyTripModal] = useState(false);
   const [showModifyCategoryModal, setShowModifyCategoryModal] = useState(false);
   const openModifyTripModal = useCallback(() => {
@@ -69,7 +69,7 @@ const Header = ({ isMobile = false, onClickMenu }) => {
                 <Menu.Item key='1' onClick={openModifyCategoryModal}>
                   카테고리 수정
                 </Menu.Item>
-                {selectedId && (
+                {selectedTrip && (
                   <Menu.Item onClick={openModifyTripModal} key='2'>
                     여행 수정/삭제
                   </Menu.Item>
