@@ -5,20 +5,20 @@ import service from '@services/trip';
 import { addTrip, modifyTrip, deleteTrip } from '@stores/actions';
 
 const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyTrip, deleteTrip }) => {
-  const { trips, selectedId } = useSelector((state) => state.trips);
+  const { trips, selectedTrip } = useSelector((state) => state.trips);
   const [originalTrip, setOriginalTrip] = useState(undefined);
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (visible && modifying) {
-      const currentTrip = trips.find((trip) => trip.id === selectedId);
+      const currentTrip = trips.find((trip) => trip.id === selectedTrip.id);
       if (currentTrip) {
         const { title, location_name: locationName } = currentTrip;
         form.setFieldsValue({ title, locationName });
         setOriginalTrip(currentTrip);
       }
     }
-  }, [visible, modifying, trips, selectedId, form]);
+  }, [visible, modifying, trips, selectedTrip, form]);
 
   const clickOkHandler = useCallback(() => {
     form.submit();

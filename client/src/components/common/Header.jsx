@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Menu, Row, Col, Button } from 'antd';
@@ -13,9 +13,6 @@ const Header = ({ isMobile = false, onClickMenu }) => {
   const { selectedId } = useSelector((state) => state.trips);
   const [showModifyTripModal, setShowModifyTripModal] = useState(false);
   const [showModifyCategoryModal, setShowModifyCategoryModal] = useState(false);
-  useEffect(() => {
-    console.log(location.pathname);
-  });
   const openModifyTripModal = useCallback(() => {
     setShowModifyTripModal(true);
   }, []);

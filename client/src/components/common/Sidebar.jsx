@@ -9,8 +9,8 @@ import NewTripModal from '@components/trip/NewTripModal';
 
 const { Content, Footer } = Layout;
 
-const Sidebar = ({ setTrips, selectTrip }) => {
-  const { init, trips, selectedId } = useSelector((state) => state.trips);
+const Sidebar = ({ setTrips, selectTrip, isMobile = false, closeSidebar }) => {
+  const { init, trips, selectedTrip } = useSelector((state) => state.trips);
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     if (!init) getTrips();
@@ -33,8 +33,9 @@ const Sidebar = ({ setTrips, selectTrip }) => {
   const onSelect = useCallback(
     ({ key }) => {
       selectTrip(key);
+      if (isMobile) closeSidebar();
     },
-    [selectTrip],
+    [selectTrip, isMobile, closeSidebar],
   );
 
   return (
@@ -43,7 +44,7 @@ const Sidebar = ({ setTrips, selectTrip }) => {
         {init && (
           <Menu
             mode='inline'
-            selectedKeys={[trips.length ? `${selectedId}` : '']}
+            selectedKeys={[trips.length ? `${selectedTrip.id}` : '']}
             style={{ height: '100%', borderRight: 0 }}
             onSelect={onSelect}
           >
