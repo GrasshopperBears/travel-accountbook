@@ -1,7 +1,8 @@
 import React from 'react';
+import MainLayout from '@layouts/MainLayout';
 
 const CategoryPage = () => {
-  return <>category page</>;
+  return <MainLayout>category page</MainLayout>;
 };
 
 export default CategoryPage;

@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Menu, Row, Col, Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
@@ -7,9 +8,14 @@ import NewTripModal from '@components/trip/NewTripModal';
 import ModifyCategoryModal from '@components/category/ModifyCategoryModal';
 
 const Header = ({ isMobile = false, onClickMenu }) => {
+  const history = useHistory();
+  const location = useLocation();
   const { selectedId } = useSelector((state) => state.trips);
   const [showModifyTripModal, setShowModifyTripModal] = useState(false);
   const [showModifyCategoryModal, setShowModifyCategoryModal] = useState(false);
+  useEffect(() => {
+    console.log(location.pathname);
+  });
   const openModifyTripModal = useCallback(() => {
     setShowModifyTripModal(true);
   }, []);
@@ -22,18 +28,26 @@ const Header = ({ isMobile = false, onClickMenu }) => {
   const closeModifyCategoryModal = useCallback(() => {
     setShowModifyCategoryModal(false);
   }, []);
+  const selectMenu = ({ key }) => {
+    if (key !== location.pathname) history.push(key);
+  };
 
   return (
     <>
       <Row>
         <Col>
-          <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['1']}>
-            <HeaderItem key='1' isMobile>
+          <Menu
+            theme='dark'
+            mode='horizontal'
+            defaultSelectedKeys={[location.pathname]}
+            onSelect={selectMenu}
+          >
+            <HeaderItem key='/' isMobile>
               전체
             </HeaderItem>
-            <Menu.Item key='2'>달력</Menu.Item>
-            <Menu.Item key='3'>카테고리</Menu.Item>
-            <Menu.Item key='4'>장소</Menu.Item>
+            <Menu.Item key='/daily'>달력</Menu.Item>
+            <Menu.Item key='/category'>카테고리</Menu.Item>
+            <Menu.Item key='/map'>장소</Menu.Item>
             {isMobile && (
               <>
                 <Menu.Item key='5' onClick={openModifyCategoryModal}>
