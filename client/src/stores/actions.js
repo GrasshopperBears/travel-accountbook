@@ -8,6 +8,10 @@ import {
   ADD_CATEGORY,
   MODIFY_CATEGORY,
   DELETE_CATEGORY,
+  LOAD_PAYMENTS,
+  ADD_PAYMENT,
+  MODIFY_PAYMENT,
+  DELETE_PAYMENT,
 } from './actionTypes';
 
 // 여행 관련
@@ -48,4 +52,22 @@ export const modifyCategory = (id, title) => ({
 export const deleteCategory = (categoryId) => ({
   type: DELETE_CATEGORY,
   payload: { categoryId },
+});
+
+// 지출 내역 관련
+export const loadPayments = (payments) => ({
+  type: LOAD_PAYMENTS,
+  payload: { payments },
+});
+export const addPayment = (newPayment) => ({
+  type: ADD_PAYMENT,
+  payload: { newPayment },
+});
+export const modifyPayment = (id, info) => ({
+  type: MODIFY_PAYMENT,
+  payload: { id, info },
+});
+export const deletePayment = (paymentId) => ({
+  type: DELETE_PAYMENT,
+  payload: { paymentId },
 });

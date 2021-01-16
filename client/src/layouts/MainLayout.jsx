@@ -38,7 +38,7 @@ const MainLayout = ({ children }) => {
             <Header>
               <LayoutHeader />
             </Header>
-            <Content>{children}</Content>
+            <BrowserMainContent>{children}</BrowserMainContent>
           </Layout>
         </Layout>
       </BrowserView>
@@ -51,7 +51,7 @@ const MainLayout = ({ children }) => {
             <LayoutHeader isMobile onClickMenu={onShowSidebar} />
           </Header>
           {selectedTrip && <Title>{selectedTrip.title}</Title>}
-          <MainContent>{children}</MainContent>
+          <MobileMainContent>{children}</MobileMainContent>
         </Layout>
       </MobileView>
       <AddPaymentBtn
@@ -78,7 +78,13 @@ const Wrapper = styled.div`
 const Title = styled(Typography.Title)`
   margin: 1rem 1.4rem 0 1.4rem !important;
 `;
-const MainContent = styled(Content)`
+const BrowserMainContent = styled(Content)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 3rem;
+`;
+const MobileMainContent = styled(Content)`
   padding: 1rem 1.4rem;
 `;
 const AddPaymentBtn = styled(Button)`
