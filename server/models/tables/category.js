@@ -17,6 +17,10 @@ const Category = sequelize.define('Category', {
     type: Sequelize.STRING(30),
     allowNull: false,
   },
+  deleted: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 module.exports = Category;

@@ -67,15 +67,17 @@ const ModifyCategoryModal = ({
           <List
             bordered
             dataSource={categories}
-            renderItem={(category) => (
-              <List.Item>
-                <ModifyCategoryRow
-                  category={category}
-                  onModify={modifyCategoryHandler}
-                  onDelete={deleteCategoryHandler}
-                />
-              </List.Item>
-            )}
+            renderItem={(category) =>
+              !category.deleted && (
+                <List.Item>
+                  <ModifyCategoryRow
+                    category={category}
+                    onModify={modifyCategoryHandler}
+                    onDelete={deleteCategoryHandler}
+                  />
+                </List.Item>
+              )
+            }
           />
         ) : (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description='카테고리를 생성해주세요' />

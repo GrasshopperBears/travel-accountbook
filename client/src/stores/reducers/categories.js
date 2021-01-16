@@ -29,6 +29,7 @@ const categories = (state = initialState, action) => {
         ...state,
         categories: state.categories.reduce((acc, category) => {
           if (category.id !== deletedCategoryId) acc.push(category);
+          else acc.push({ ...category, deleted: true });
           return acc;
         }, []),
       };
