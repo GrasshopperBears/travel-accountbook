@@ -30,8 +30,16 @@ const ModifyCategoryModal = ({
       form.resetFields();
     } else alert('오류가 발생했습니다');
   };
-  const modifyCategoryHandler = () => {};
-  const deleteCategoryHandler = () => {};
+  const modifyCategoryHandler = async (id, newTitle) => {
+    const response = await service.modifyCategory(id, newTitle);
+    if (response.success) modifyCategory(id, newTitle);
+    else alert('오류가 발생했습니다');
+  };
+  const deleteCategoryHandler = async (id) => {
+    const response = await service.deleteCategory(id);
+    if (response.success) deleteCategory(id);
+    else alert('오류가 발생했습니다');
+  };
 
   return (
     <Modal visible={visible} onCancel={closeModal} title='카테고리 수정하기' footer={null}>
