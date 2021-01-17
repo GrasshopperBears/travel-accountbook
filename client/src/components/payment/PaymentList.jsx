@@ -23,8 +23,8 @@ const PaymentList = ({ loadPayments }) => {
   };
   const modifyModalHanlder = (info) => {
     setShowModifyModal(true);
-    const { id, title, amount, date, category_id: category, location_name, memo } = info;
-    const initialValues = { id, title, amount, date: moment(date), category, location_name, memo };
+    const { id, title, amount, date, category_id, location_name, memo } = info;
+    const initialValues = { id, title, amount, date: moment(date), category_id, location_name, memo };
     setModifyModalInitialValues(initialValues);
   };
 

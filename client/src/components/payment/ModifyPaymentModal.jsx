@@ -10,6 +10,11 @@ const ModifyPaymentModal = ({ visible, onCancel, modifyPayment, initialValues })
   const [isLoading, setIsLoading] = useState(false);
 
   const modifyPaymentHandler = async (values) => {
+    if (!hasDifferentValue(initialValues, values)) {
+      message.warning('변경사항이 없습니다');
+      onCancel();
+      return;
+    }
     setIsLoading(true);
     const modifiedData = {
       ...values,
@@ -45,6 +50,16 @@ const ModifyPaymentModal = ({ visible, onCancel, modifyPayment, initialValues })
       <PaymentForm form={form} initialValues={initialValues} onFinish={modifyPaymentHandler} />
     </Modal>
   );
+};
+
+const hasDifferentValue = (prevVal, newVal) => {
+  if (prevVal.title !== newVal.title) return true;
+  if (prevVal.amount !== newVal.amount) return true;
+  if (!prevVal.date.isSame(newVal.date, 'day')) return true;
+  if (prevVal.category_id !== newVal.category_id) return true;
+  if (prevVal.location_name !== newVal.location_name) return true;
+  if (prevVal.memo !== newVal.memo) return true;
+  return false;
 };
 
 export default connect(null, { modifyPayment })(ModifyPaymentModal);
