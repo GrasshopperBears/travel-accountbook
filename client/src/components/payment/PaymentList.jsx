@@ -34,7 +34,7 @@ const PaymentList = ({ loadPayments }) => {
 
   return payments.length ? (
     <>
-      <DailyList list={payments} onClickModify={modifyModalHanlder} />
+      <DailyList payments={payments} onClickModify={modifyModalHanlder} />
       <ModifyPaymentModal
         visible={showModifyModal}
         initialValues={modifyModalInitialValues}

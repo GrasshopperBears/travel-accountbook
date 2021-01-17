@@ -1,17 +1,37 @@
-import React from 'react';
-import { Card, List } from 'antd';
-import PaymentInfo from './PaymentInfo';
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+import { List } from 'antd';
+import DailyPaymentCard from './DailyPaymentCard';
 
-const DailyList = ({ list, onClickModify }) => {
+const DailyList = ({ payments, onClickModify }) => {
+  const [paymentsByDate, setPaymentsByDate] = useState([]);
+  useEffect(() => {
+    console.log(payments);
+    const newPaymentsByDate = [];
+    let date = undefined;
+    let paymentsInDay = [];
+    payments.forEach((payment, idx) => {
+      if (!date || !date.isSame(payment.date, 'day')) {
+        if (paymentsInDay.length) newPaymentsByDate.push(paymentsInDay);
+        paymentsInDay = [payment];
+        date = moment(payment.date);
+      } else paymentsInDay.push(payment);
+
+      if (idx === payments.length - 1 && paymentsInDay.length) {
+        newPaymentsByDate.push(paymentsInDay);
+        setPaymentsByDate(newPaymentsByDate);
+      }
+    });
+  }, [payments]);
+
   return (
-    <Card title={list[0].date} bordered={false} style={{ height: '100%', overflowY: 'scroll' }}>
-      <List
-        dataSource={list}
-        renderItem={(payment) => (
-          <PaymentInfo key={payment.id} info={payment} onClickModify={onClickModify} />
-        )}
-      />
-    </Card>
+    <List
+      dataSource={paymentsByDate}
+      renderItem={(paymentsInDay) => (
+        <DailyPaymentCard paymentsInDay={paymentsInDay} onClickModify={onClickModify} />
+      )}
+      style={{ height: '100%', overflowY: 'auto' }}
+    />
   );
 };
 

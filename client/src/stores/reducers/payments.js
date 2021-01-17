@@ -11,6 +11,7 @@ import {
 const initialState = {
   init: false,
   payments: [],
+  recentlyAdded: [],
   initTotalAmount: false,
   totalAmount: 0,
   todayAmount: 0,
@@ -23,13 +24,17 @@ const payments = (state = initialState, action) => {
       return { ...state, initTotalAmount: true, totalAmount, todayAmount };
     case LOAD_PAYMENTS:
       const { payments } = action.payload;
-      return { ...state, init: true, payments: [...payments, ...state.payments] };
+      const distinctPayments = state.recentlyAdded.length
+        ? payments.filter((payment) => state.recentlyAdded.indexOf(payment.id) !== -1)
+        : payments;
+      return { ...state, init: true, payments: [...state.payments, ...distinctPayments], recentlyAdded: [] };
     case ADD_PAYMENT:
       const { newPayment } = action.payload;
       const { date: addedDate, amount: addedAmount } = newPayment;
       return {
         ...state,
-        payments: [newPayment, ...state.payments],
+        payments: addPayment(state.payments, newPayment),
+        recentlyAdded: [...state.recentlyAdded, newPayment],
         totalAmount: state.totalAmount + addedAmount,
         todayAmount: moment().isSame(addedDate, 'day') ? state.todayAmount + addedAmount : state.todayAmount,
       };
@@ -37,15 +42,21 @@ const payments = (state = initialState, action) => {
       const { prevInfo, newInfo } = action.payload;
       const { id, date: prevDate, amount: prevAmount } = prevInfo;
       const { date: newDate, amount: newAmount } = newInfo;
+      const isDateChanged = !prevDate.isSame(newDate, 'day');
       const wasToday = moment().isSame(prevDate, 'day');
       const isToday = moment().isSame(newDate, 'day');
       return {
         ...state,
-        payments: state.payments.reduce((acc, payment) => {
-          if (payment.id === id) acc.push({ ...payment, ...newInfo });
-          else acc.push(payment);
-          return acc;
-        }, []),
+        payments: isDateChanged
+          ? addPayment(
+              state.payments.filter((payment) => payment.id !== id),
+              { ...prevInfo, ...newInfo },
+            )
+          : state.payments.reduce((acc, payment) => {
+              if (payment.id === id) acc.push({ ...payment, ...newInfo });
+              else acc.push(payment);
+              return acc;
+            }, []),
         totalAmount: state.totalAmount - prevAmount + newAmount,
         todayAmount: wasToday
           ? isToday
@@ -76,6 +87,33 @@ const payments = (state = initialState, action) => {
     default:
       return state;
   }
+};
+
+const addPayment = (prevPayments, newPayment) => {
+  if (!prevPayments.length) return [newPayment];
+  let newIdx = prevPayments.length;
+  const newDate = moment(newPayment.date);
+
+  for (let i in prevPayments) {
+    const payment = prevPayments[i];
+    if (newDate.isAfter(payment.date)) {
+      newIdx = parseInt(i);
+      break;
+    }
+    if (newDate.isSame(payment.date)) {
+      if (newPayment.id > payment.id) {
+        newIdx = parseInt(i);
+        break;
+      }
+    }
+  }
+
+  return prevPayments.reduce((acc, payment, idx) => {
+    if (idx === newIdx) acc.push(newPayment);
+    acc.push(payment);
+    if (newIdx === prevPayments.length && idx + 1 === newIdx) acc.push(newPayment);
+    return acc;
+  }, []);
 };
 
 export default payments;
