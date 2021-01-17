@@ -19,7 +19,7 @@ const ModifyPaymentModal = ({ visible, onCancel, modifyPayment, initialValues })
     if (response && response.success) {
       form.resetFields();
       onCancel();
-      modifyPayment(initialValues.id, modifiedData);
+      modifyPayment(initialValues, modifiedData);
       setIsLoading(false);
     } else alert('수정 중 오류가 발생했습니다');
   };

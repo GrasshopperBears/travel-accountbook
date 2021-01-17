@@ -34,14 +34,26 @@ const payments = (state = initialState, action) => {
         todayAmount: moment().isSame(addedDate, 'day') ? state.todayAmount + addedAmount : state.todayAmount,
       };
     case MODIFY_PAYMENT:
-      const { id, info } = action.payload;
+      const { prevInfo, newInfo } = action.payload;
+      const { id, date: prevDate, amount: prevAmount } = prevInfo;
+      const { date: newDate, amount: newAmount } = newInfo;
+      const wasToday = moment().isSame(prevDate, 'day');
+      const isToday = moment().isSame(newDate, 'day');
       return {
         ...state,
         payments: state.payments.reduce((acc, payment) => {
-          if (payment.id === id) acc.push({ ...payment, ...info });
+          if (payment.id === id) acc.push({ ...payment, ...newInfo });
           else acc.push(payment);
           return acc;
         }, []),
+        totalAmount: state.totalAmount - prevAmount + newAmount,
+        todayAmount: wasToday
+          ? isToday
+            ? state.todayAmount - prevAmount + newAmount
+            : state.todayAmount - prevAmount
+          : isToday
+          ? state.todayAmount + newAmount
+          : state.todayAmount,
       };
     case DELETE_PAYMENT:
       const {

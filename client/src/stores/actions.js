@@ -69,9 +69,9 @@ export const addPayment = (newPayment) => ({
   type: ADD_PAYMENT,
   payload: { newPayment },
 });
-export const modifyPayment = (id, info) => ({
+export const modifyPayment = (prevInfo, newInfo) => ({
   type: MODIFY_PAYMENT,
-  payload: { id, info },
+  payload: { prevInfo, newInfo },
 });
 export const deletePayment = (info) => ({
   type: DELETE_PAYMENT,
