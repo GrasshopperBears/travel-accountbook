@@ -26,7 +26,13 @@ const payments = (state = initialState, action) => {
       return { ...state, init: true, payments: [...payments, ...state.payments] };
     case ADD_PAYMENT:
       const { newPayment } = action.payload;
-      return { ...state, payments: [newPayment, ...state.payments] };
+      const { date: addedDate, amount: addedAmount } = newPayment;
+      return {
+        ...state,
+        payments: [newPayment, ...state.payments],
+        totalAmount: state.totalAmount + addedAmount,
+        todayAmount: moment().isSame(addedDate, 'day') ? state.todayAmount + addedAmount : state.todayAmount,
+      };
     case MODIFY_PAYMENT:
       const { id, info } = action.payload;
       return {
@@ -39,7 +45,7 @@ const payments = (state = initialState, action) => {
       };
     case DELETE_PAYMENT:
       const {
-        info: { id: deletedPaymentId, amount, date },
+        info: { id: deletedPaymentId, amount: deletedAmount, date: deletedDate },
       } = action.payload;
 
       return {
@@ -48,8 +54,10 @@ const payments = (state = initialState, action) => {
           if (payment.id !== deletedPaymentId) acc.push(payment);
           return acc;
         }, []),
-        totalAmount: state.totalAmount - amount,
-        todayAmount: moment().isSame(date, 'day') ? state.todayAmount - amount : state.todayAmount,
+        totalAmount: state.totalAmount - deletedAmount,
+        todayAmount: moment().isSame(deletedDate, 'day')
+          ? state.todayAmount - deletedAmount
+          : state.todayAmount,
       };
     case CLEAR_PAYMENT:
       return initialState;

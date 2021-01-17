@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import moment from 'moment';
 import { Modal, Form, Input, InputNumber, DatePicker, Select } from 'antd';
 import service from '@services/payment';
+import { addPayment } from '@stores/actions';
 
 const { Option } = Select;
 const layout = {
@@ -14,7 +15,7 @@ const layout = {
   },
 };
 
-const AddPaymentModal = ({ visible, onCancel }) => {
+const AddPaymentModal = ({ visible, onCancel, addPayment }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const { selectedTrip } = useSelector((state) => state.trips);
@@ -30,6 +31,7 @@ const AddPaymentModal = ({ visible, onCancel }) => {
     if (response) {
       form.resetFields();
       onCancel();
+      addPayment(response);
       setIsLoading(false);
     } else alert('추가 중 오류가 발생했습니다');
   };
@@ -85,4 +87,4 @@ const AddPaymentModal = ({ visible, onCancel }) => {
   );
 };
 
-export default AddPaymentModal;
+export default connect(null, { addPayment })(AddPaymentModal);
