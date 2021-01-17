@@ -30,6 +30,7 @@ const PaymentList = ({ loadPayments }) => {
 
   useEffect(() => {
     if (initTrips && selectedTrip && !initPayments) fetchPayments();
+    console.log('test');
   }, [initTrips, initPayments]);
 
   return payments.length ? (
