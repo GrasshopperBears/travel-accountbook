@@ -43,7 +43,10 @@ const PaymentForm = ({ form, initialValues, onFinish }) => {
       </Form.Item>
       <Form.Item label='카테고리' name='category_id'>
         <Select placeholder='카테고리를 선택해주세요' allowClear>
-          {init && categories.map((category) => <Option value={category.id}>{category.title}</Option>)}
+          {init &&
+            categories
+              .filter((category) => !category.deleted)
+              .map((category) => <Option value={category.id}>{category.title}</Option>)}
         </Select>
       </Form.Item>
       <Form.Item label='장소 이름' name='location_name'>
