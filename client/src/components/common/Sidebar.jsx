@@ -33,6 +33,7 @@ const Sidebar = ({ selectTrip, isMobile = false, closeSidebar, clearPayment }) =
 
   return (
     <Layout style={{ height: '100%' }}>
+      <Title>여행 가계부</Title>
       <Content>
         {init && (
           <Menu
@@ -56,6 +57,10 @@ const Sidebar = ({ selectTrip, isMobile = false, closeSidebar, clearPayment }) =
   );
 };
 
+const Title = styled.div`
+  font-size: 1.5rem;
+  padding: 1.1rem 0.8rem;
+`;
 const NewTripBtn = styled(Button)`
   margin: 0 5%;
   width: 90%;
