@@ -1,11 +1,11 @@
 const Payment = require('../../models/tables/payment');
 
 const modifyPayment = async (req, res) => {
-  const { uid: user_id, title, amount, date, category, location_name, memo } = req.body;
+  const { uid: user_id, title, amount, date, category_id, location_name, memo } = req.body;
   const { paymentId: id } = req.params;
   try {
     const [affectedRows] = await Payment.update(
-      { title, amount, date, category, location_name, memo },
+      { title, amount, date, category_id, location_name, memo },
       { where: { user_id, id } },
     );
     if (affectedRows) res.json({ success: true });
