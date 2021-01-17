@@ -14,3 +14,4 @@ export const LOAD_PAYMENTS = 'LOAD_PAYMENTS';
 export const ADD_PAYMENT = 'ADD_PAYMENT';
 export const MODIFY_PAYMENT = 'MODIFY_PAYMENT';
 export const DELETE_PAYMENT = 'DELETE_PAYMENT';
+export const CLEAR_PAYMENT = 'CLEAR_PAYMENT';

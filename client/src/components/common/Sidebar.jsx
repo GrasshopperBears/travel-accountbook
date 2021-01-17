@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { setTrips, selectTrip } from '@stores/actions';
+import { setTrips, selectTrip, clearPayment } from '@stores/actions';
 import { Menu, Layout, Button } from 'antd';
 import styled from 'styled-components';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -8,7 +8,7 @@ import NewTripModal from '@components/trip/NewTripModal';
 
 const { Content, Footer } = Layout;
 
-const Sidebar = ({ selectTrip, isMobile = false, closeSidebar }) => {
+const Sidebar = ({ selectTrip, isMobile = false, closeSidebar, clearPayment }) => {
   const { init, trips, selectedTrip } = useSelector((state) => state.trips);
   const [showModal, setShowModal] = useState(false);
 
@@ -25,9 +25,10 @@ const Sidebar = ({ selectTrip, isMobile = false, closeSidebar }) => {
   const onSelect = useCallback(
     ({ key }) => {
       selectTrip(key);
+      clearPayment();
       if (isMobile) closeSidebar();
     },
-    [selectTrip, isMobile, closeSidebar],
+    [selectTrip, isMobile, closeSidebar, clearPayment],
   );
 
   return (
@@ -68,4 +69,4 @@ const LogoutBtn = styled(Footer)`
   }
 `;
 
-export default connect(null, { setTrips, selectTrip })(Sidebar);
+export default connect(null, { setTrips, selectTrip, clearPayment })(Sidebar);

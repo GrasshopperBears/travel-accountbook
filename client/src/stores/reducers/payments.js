@@ -1,4 +1,11 @@
-import { SET_TOTAL_AMOUNT, LOAD_PAYMENTS, ADD_PAYMENT, MODIFY_PAYMENT, DELETE_PAYMENT } from '../actionTypes';
+import {
+  SET_TOTAL_AMOUNT,
+  LOAD_PAYMENTS,
+  ADD_PAYMENT,
+  MODIFY_PAYMENT,
+  DELETE_PAYMENT,
+  CLEAR_PAYMENT,
+} from '../actionTypes';
 
 const initialState = {
   init: false,
@@ -38,6 +45,9 @@ const payments = (state = initialState, action) => {
           return acc;
         }, []),
       };
+    case CLEAR_PAYMENT:
+      console.log('done');
+      return initialState;
     default:
       return state;
   }

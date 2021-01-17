@@ -13,6 +13,7 @@ import {
   ADD_PAYMENT,
   MODIFY_PAYMENT,
   DELETE_PAYMENT,
+  CLEAR_PAYMENT,
 } from './actionTypes';
 
 // 여행 관련
@@ -75,4 +76,8 @@ export const modifyPayment = (id, info) => ({
 export const deletePayment = (paymentId) => ({
   type: DELETE_PAYMENT,
   payload: { paymentId },
+});
+export const clearPayment = () => ({
+  type: CLEAR_PAYMENT,
+  payload: {},
 });
