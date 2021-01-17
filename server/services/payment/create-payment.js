@@ -8,7 +8,7 @@ const createPayment = async (req, res) => {
     amount,
     date,
     category,
-    placeName: place_name,
+    placeName: location_name,
     memo,
   } = req.body;
   try {
@@ -19,7 +19,7 @@ const createPayment = async (req, res) => {
       amount,
       date,
       category,
-      place_name,
+      location_name,
       memo,
     });
     if (newPayment) res.json(newPayment);

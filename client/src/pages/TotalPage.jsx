@@ -13,7 +13,7 @@ const TotalPage = () => {
           <TotalAmount />
         </Col>
         {!isMobile && <Col xl={1} md={0} />}
-        <Col xl={15} md={16} style={{ width: '100%' }}>
+        <Col xl={15} md={16} style={{ width: '100%', height: '100%' }}>
           <PaymentList />
         </Col>
       </Row>
