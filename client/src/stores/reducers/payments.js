@@ -5,13 +5,14 @@ const initialState = {
   payments: [],
   initTotalAmount: false,
   totalAmount: 0,
+  todayAmount: 0,
 };
 
 const payments = (state = initialState, action) => {
   switch (action.type) {
     case SET_TOTAL_AMOUNT:
-      const { totalAmount } = action.payload;
-      return { ...state, initTotalAmount: true, totalAmount };
+      const { totalAmount, todayAmount } = action.payload;
+      return { ...state, initTotalAmount: true, totalAmount, todayAmount };
     case LOAD_PAYMENTS:
       const { payments } = action.payload;
       return { ...state, init: true, payments: [...payments, ...state.payments] };

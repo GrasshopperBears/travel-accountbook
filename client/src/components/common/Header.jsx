@@ -26,7 +26,7 @@ const Header = ({ isMobile = false, onClickMenu }) => {
     setShowModifyCategoryModal(false);
   }, []);
   const selectMenu = ({ key }) => {
-    if (key !== location.pathname) history.push(key);
+    if (key !== location.pathname && key.startsWith('/')) history.push(key);
   };
 
   return (

@@ -56,9 +56,9 @@ export const deleteCategory = (categoryId) => ({
 });
 
 // 지출 내역 관련
-export const setTotalAmount = (totalAmount) => ({
+export const setTotalAmount = (totalAmount, todayAmount) => ({
   type: SET_TOTAL_AMOUNT,
-  payload: { totalAmount },
+  payload: { totalAmount, todayAmount },
 });
 export const loadPayments = (payments) => ({
   type: LOAD_PAYMENTS,
