@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd /home/travel-accountbook
 git fetch origin
 SERVER_COMPARE=$(git diff FETCH_HEAD..HEAD server)
 CLIENT_COMPARE=$(git diff FETCH_HEAD..HEAD client)
