@@ -1,10 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, message } from 'antd';
 import service from '@services/trip';
-import { addTrip, modifyTrip, deleteTrip } from '@stores/actions';
+import { addTrip, modifyTrip, deleteTrip, clearPayment } from '@stores/actions';
 
-const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyTrip, deleteTrip }) => {
+const NewTripModal = ({
+  visible,
+  closeModal,
+  modifying = false,
+  addTrip,
+  modifyTrip,
+  deleteTrip,
+  clearPayment,
+}) => {
   const { trips, selectedTrip } = useSelector((state) => state.trips);
   const [originalTrip, setOriginalTrip] = useState(undefined);
   const [form] = Form.useForm();
@@ -32,13 +40,18 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
   const createTripHandler = async (title, locationName) => {
     const response = await service.createTrip(title, locationName);
     if (response) {
+      message.success('여행이 추가되었습니다');
       addTrip(response);
+      clearPayment();
     } else alert('추가 중 오류가 발생했습니다');
   };
   const modifyTripHandler = async (title, locationName) => {
     const { id: tripId } = originalTrip;
     const response = await service.modifyTrip(tripId, title, locationName);
-    if (response.success) modifyTrip(tripId, title, locationName);
+    if (response.success) {
+      message.success('수정이 완료되었습니다');
+      modifyTrip(tripId, title, locationName);
+    }
   };
   const deleteTripHandler = async () => {
     if (!window.confirm('정말 삭제하시겠습니까?')) return;
@@ -46,7 +59,9 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
     const { id: tripId } = originalTrip;
     const response = await service.deleteTrip(tripId);
     if (response.success) {
+      message.success('삭제가 완료되었습니다');
       deleteTrip(tripId);
+      clearPayment();
     } else alert('삭제 중 오류가 발생했습니다');
   };
   const buttons = [
@@ -91,4 +106,4 @@ const NewTripModal = ({ visible, closeModal, modifying = false, addTrip, modifyT
   );
 };
 
-export default connect(null, { addTrip, modifyTrip, deleteTrip })(NewTripModal);
+export default connect(null, { addTrip, modifyTrip, deleteTrip, clearPayment })(NewTripModal);

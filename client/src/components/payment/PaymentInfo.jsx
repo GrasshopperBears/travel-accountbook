@@ -1,5 +1,5 @@
 import React from 'react';
-import { Descriptions, Button, Space } from 'antd';
+import { Descriptions, Button, Space, message } from 'antd';
 import { connect, useSelector } from 'react-redux';
 import { DollarOutlined, CopyOutlined, AimOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
@@ -13,8 +13,10 @@ const PaymentInfo = ({ info, deletePayment, onClickModify }) => {
     const response = await service.deletePayment(info.id);
     if (response) {
       const { success } = response;
-      if (success) deletePayment(info);
-      else alert('삭제 중 오류가 발생했습니다');
+      if (success) {
+        message.success('결제 내역이 삭제되었습니다');
+        deletePayment(info);
+      } else alert('삭제 중 오류가 발생했습니다');
     } else alert('삭제 중 오류가 발생했습니다');
   };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { setCategories, addCategory, modifyCategory, deleteCategory } from '@stores/actions';
 import service from '@services/category';
-import { Modal, Form, Input, Button, Divider, Empty, List } from 'antd';
+import { Modal, Form, Input, Button, Divider, Empty, List, message } from 'antd';
 import ModifyCategoryRow from './ModifyCategoryRow';
 
 const ModifyCategoryModal = ({
@@ -26,19 +26,24 @@ const ModifyCategoryModal = ({
   const addCategoryHandler = async ({ title }) => {
     const response = await service.createCategory(title);
     if (response) {
+      message.success('카테고리가 추가되었습니다');
       addCategory(response);
       form.resetFields();
     } else alert('오류가 발생했습니다');
   };
   const modifyCategoryHandler = async (id, newTitle) => {
     const response = await service.modifyCategory(id, newTitle);
-    if (response.success) modifyCategory(id, newTitle);
-    else alert('오류가 발생했습니다');
+    if (response.success) {
+      message.success('수정이 완료되었습니다');
+      modifyCategory(id, newTitle);
+    } else alert('오류가 발생했습니다');
   };
   const deleteCategoryHandler = async (id) => {
     const response = await service.deleteCategory(id);
-    if (response.success) deleteCategory(id);
-    else alert('오류가 발생했습니다');
+    if (response.success) {
+      message.success('삭제가 완료되었습니다');
+      deleteCategory(id);
+    } else alert('오류가 발생했습니다');
   };
 
   return (

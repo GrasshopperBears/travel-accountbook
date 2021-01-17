@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Modal, Form } from 'antd';
+import { Modal, Form, message } from 'antd';
 import service from '@services/payment';
 import { modifyPayment } from '@stores/actions';
 import PaymentForm from './PaymentForm';
@@ -17,6 +17,7 @@ const ModifyPaymentModal = ({ visible, onCancel, modifyPayment, initialValues })
     };
     const response = await service.modifyPayment(initialValues.id, modifiedData);
     if (response && response.success) {
+      message.success('수정이 완료되었습니다');
       form.resetFields();
       onCancel();
       modifyPayment(initialValues, modifiedData);

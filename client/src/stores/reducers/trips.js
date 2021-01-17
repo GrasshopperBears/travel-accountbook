@@ -36,7 +36,7 @@ const trips = (state = initialState, action) => {
       return {
         ...state,
         trips: newTrips,
-        selectedId: newTrips.length ? newTrips[0] : undefined,
+        selectedTrip: newTrips.length ? newTrips[0] : undefined,
       };
     default:
       return state;

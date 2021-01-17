@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import moment from 'moment';
-import { Modal, Form } from 'antd';
+import { Modal, Form, message } from 'antd';
 import service from '@services/payment';
 import { addPayment } from '@stores/actions';
 import PaymentForm from './PaymentForm';
@@ -19,6 +19,7 @@ const AddPaymentModal = ({ visible, onCancel, addPayment }) => {
       trip_id: selectedTrip.id,
     });
     if (response) {
+      message.success('지출 내역이 추가되었습니다');
       form.resetFields();
       onCancel();
       addPayment(response);
