@@ -8,7 +8,7 @@ import PaymentList from '@components/payment/PaymentList';
 const TotalPage = () => {
   return (
     <MainLayout>
-      <Row align='top' style={{ width: isMobile ? '100%' : '70%', margin: 0 }}>
+      <Row align='top' style={{ width: isMobile ? '100%' : '60%', margin: 0 }}>
         <Col xl={8} md={16} style={{ height: 'max-content', width: '100%' }}>
           <TotalAmount />
         </Col>

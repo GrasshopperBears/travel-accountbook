@@ -99,7 +99,7 @@ const MobileMainContent = styled(Content)`
 `;
 const AddPaymentBtn = styled(Button)`
   position: fixed;
-  right: ${({ isMobile }) => (isMobile ? '2rem' : '5.5rem')};
+  right: ${({ isMobile }) => (isMobile ? '2rem' : '4%')};
   bottom: ${({ isMobile }) => (isMobile ? '2rem' : '3rem')};
 `;
 
