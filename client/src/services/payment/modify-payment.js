@@ -1,7 +1,7 @@
 import apiRequest from '../api-request';
 
-const modifyPayment = async (paymentId, info) => {
-  const { data } = await apiRequest.patch(`/payment/${paymentId}`, info);
+const modifyPayment = async (modifiedId, modifiedValues) => {
+  const { data } = await apiRequest.patch(`/payment/${modifiedId}`, modifiedValues);
   return data;
 };
 

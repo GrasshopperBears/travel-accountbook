@@ -1,12 +1,13 @@
 import React from 'react';
 import { Descriptions, Button, Space } from 'antd';
-import { connect } from 'react-redux';
-import { DollarOutlined, CopyOutlined, AimOutlined } from '@ant-design/icons';
+import { connect, useSelector } from 'react-redux';
+import { DollarOutlined, CopyOutlined, AimOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { deletePayment } from '@stores/actions';
 import service from '@services/payment';
 
-const PaymentInfo = ({ info, deletePayment }) => {
+const PaymentInfo = ({ info, deletePayment, onClickModify }) => {
+  const { init, categories } = useSelector((state) => state.categories);
   const deleteHandler = async () => {
     if (!window.confirm('해당 내역을 삭제하시겠습니까?')) return;
     const response = await service.deletePayment(info.id);
@@ -22,7 +23,13 @@ const PaymentInfo = ({ info, deletePayment }) => {
       <Button type='danger' size='small' onClick={deleteHandler}>
         삭제
       </Button>
-      <Button type='primary' size='small'>
+      <Button
+        type='primary'
+        size='small'
+        onClick={() => {
+          onClickModify(info);
+        }}
+      >
         수정
       </Button>
     </Space>
@@ -31,18 +38,25 @@ const PaymentInfo = ({ info, deletePayment }) => {
   return (
     <PaymentDescriptions
       title={info.title}
-      column={{ xxl: 2, xs: 1 }}
+      column={{ xxl: 2, xl: 2, lg: 2, md: 2, sm: 2, xs: 1 }}
       extra={btns}
       size='small'
       colon={false}
       style={{ borderBottom: '1px solid #e8e8e8', paddingTop: '0.8rem' }}
     >
       <Descriptions.Item
-        span={info.location_name ? 1 : 2}
+        span={2}
         label={<DollarOutlined />}
       >{`${info.amount.toLocaleString()}원`}</Descriptions.Item>
       {info.location_name && (
-        <Descriptions.Item label={<AimOutlined />}>{info.location_name}</Descriptions.Item>
+        <Descriptions.Item label={<AimOutlined />} span={info.category_id ? 1 : 2}>
+          {info.location_name}
+        </Descriptions.Item>
+      )}
+      {init && info.category_id && (
+        <Descriptions.Item label={<FolderOpenOutlined />} span={info.location_name ? 1 : 2}>
+          {categories.find((category) => category.id === info.category_id).title}
+        </Descriptions.Item>
       )}
       {info.memo && (
         <Descriptions.Item label={<CopyOutlined />} span={2}>
