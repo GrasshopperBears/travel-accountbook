@@ -73,9 +73,9 @@ export const modifyPayment = (id, info) => ({
   type: MODIFY_PAYMENT,
   payload: { id, info },
 });
-export const deletePayment = (paymentId) => ({
+export const deletePayment = (info) => ({
   type: DELETE_PAYMENT,
-  payload: { paymentId },
+  payload: { info },
 });
 export const clearPayment = () => ({
   type: CLEAR_PAYMENT,

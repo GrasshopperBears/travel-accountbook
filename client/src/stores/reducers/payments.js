@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   SET_TOTAL_AMOUNT,
   LOAD_PAYMENTS,
@@ -37,16 +38,20 @@ const payments = (state = initialState, action) => {
         }, []),
       };
     case DELETE_PAYMENT:
-      const { paymentId: deletedPaymentId } = action.payload;
+      const {
+        info: { id: deletedPaymentId, amount, date },
+      } = action.payload;
+
       return {
         ...state,
         payments: state.payments.reduce((acc, payment) => {
           if (payment.id !== deletedPaymentId) acc.push(payment);
           return acc;
         }, []),
+        totalAmount: state.totalAmount - amount,
+        todayAmount: moment().isSame(date, 'day') ? state.todayAmount - amount : state.todayAmount,
       };
     case CLEAR_PAYMENT:
-      console.log('done');
       return initialState;
     default:
       return state;

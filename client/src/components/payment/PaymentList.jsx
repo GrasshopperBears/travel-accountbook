@@ -20,7 +20,7 @@ const PaymentList = ({ loadPayments }) => {
 
   useEffect(() => {
     if (initTrips && selectedTrip && !initPayments) fetchPayments();
-  });
+  }, [initTrips, initPayments]);
 
   return payments.length ? (
     <DailyList list={payments} />
