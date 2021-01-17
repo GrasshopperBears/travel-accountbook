@@ -6,7 +6,6 @@ import DailyPaymentCard from './DailyPaymentCard';
 const DailyList = ({ payments, onClickModify }) => {
   const [paymentsByDate, setPaymentsByDate] = useState([]);
   useEffect(() => {
-    console.log(payments);
     const newPaymentsByDate = [];
     let date = undefined;
     let paymentsInDay = [];
