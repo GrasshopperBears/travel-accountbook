@@ -1,7 +1,18 @@
 const Payment = require('../../models/tables/payment');
 
 const createPayment = async (req, res) => {
-  const { uid: user_id, trip_id, title, amount, date, category_id, location_name, memo } = req.body;
+  const {
+    uid: user_id,
+    trip_id,
+    title,
+    amount,
+    date,
+    category_id,
+    location_name,
+    location_latlng,
+    place_url,
+    memo,
+  } = req.body;
   try {
     const newPayment = await Payment.create({
       user_id,
@@ -11,6 +22,8 @@ const createPayment = async (req, res) => {
       date,
       category_id,
       location_name,
+      location_latlng,
+      place_url,
       memo,
     });
     if (newPayment) res.json(newPayment);

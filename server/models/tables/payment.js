@@ -39,6 +39,9 @@ const Payment = sequelize.define('Payment', {
   location_name: {
     type: Sequelize.STRING(30),
   },
+  place_url: {
+    type: Sequelize.STRING,
+  },
   memo: {
     type: Sequelize.TEXT,
   },
