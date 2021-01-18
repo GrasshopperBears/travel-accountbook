@@ -25,9 +25,11 @@ const payments = (state = initialState, action) => {
     case LOAD_PAYMENTS:
       const { payments } = action.payload;
       const distinctPayments = state.recentlyAdded.length
-        ? payments.filter((payment) => state.recentlyAdded.indexOf(payment.id) !== -1)
-        : payments;
-      return { ...state, init: true, payments: [...state.payments, ...distinctPayments], recentlyAdded: [] };
+        ? state.payments.filter(
+            (payment) => !state.recentlyAdded.find((element) => element.id === payment.id),
+          )
+        : state.payments;
+      return { ...state, init: true, payments: [...distinctPayments, ...payments], recentlyAdded: [] };
     case ADD_PAYMENT:
       const { newPayment } = action.payload;
       const { date: addedDate, amount: addedAmount } = newPayment;
