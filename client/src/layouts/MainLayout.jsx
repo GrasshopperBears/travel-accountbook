@@ -92,10 +92,13 @@ const BrowserMainContent = styled(Content)`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 3rem;
+  padding: 3rem 20%;
+  margin: 0;
 `;
 const MobileMainContent = styled(Content)`
   padding: 1rem 1.4rem;
+  width: 100%;
+  margin: 0;
 `;
 const AddPaymentBtn = styled(Button)`
   position: fixed;
