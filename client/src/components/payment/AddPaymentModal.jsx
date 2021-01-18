@@ -17,7 +17,7 @@ const AddPaymentModal = ({ visible, onCancel, addPayment }) => {
       ...values,
       date: values.date.format('YYYY-MM-DD'),
       trip_id: selectedTrip.id,
-      location_latlng: { type: 'Point', coordinates: [values.x, values.y] },
+      location_latlng: values.x ? { type: 'Point', coordinates: [values.x, values.y] } : undefined,
     });
     if (response) {
       message.success('지출 내역이 추가되었습니다');
