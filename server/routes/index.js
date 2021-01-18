@@ -6,5 +6,6 @@ router.use('/api/auth', require('./auth'));
 router.use('/api/trip', authorizeToken, require('./trip'));
 router.use('/api/category', authorizeToken, require('./category'));
 router.use('/api/payment', authorizeToken, require('./payment'));
+router.use('/api/daily', authorizeToken, require('./daily'));
 
 module.exports = router;
