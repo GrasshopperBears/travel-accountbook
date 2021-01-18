@@ -9,17 +9,17 @@ import DailyList from './DailyList';
 import ModifyPaymentModal from './ModifyPaymentModal';
 
 const PaymentList = ({ loadPayments }) => {
-  const [scrollPage, setScroolPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const [showModifyModal, setShowModifyModal] = useState(false);
   const [modifyModalInitialValues, setModifyModalInitialValues] = useState({});
   const { init: initTrips, selectedTrip } = useSelector((state) => state.trips);
   const { init: initPayments, payments } = useSelector((state) => state.payments);
-  const fetchPayments = async () => {
-    const response = await service.getPayments(scrollPage, selectedTrip.id);
+  const fetchPayments = async (page) => {
+    const response = await service.getPayments(page, selectedTrip.id);
     if (!response) return alert('내역 조회 중 오류가 발생했습니다');
     const { payments, isLast } = response;
     loadPayments(payments);
-    if (!isLast) setScroolPage(scrollPage + 1);
+    if (isLast) setHasMore(false);
   };
   const modifyModalHanlder = (info) => {
     setShowModifyModal(true);
@@ -29,12 +29,21 @@ const PaymentList = ({ loadPayments }) => {
   };
 
   useEffect(() => {
-    if (initTrips && selectedTrip && !initPayments) fetchPayments();
+    if (initTrips && selectedTrip && !initPayments) fetchPayments(0);
   }, [initTrips, initPayments]);
 
   return payments.length ? (
-    <>
-      <DailyList payments={payments} onClickModify={modifyModalHanlder} />
+    <div style={{ height: '100%', overflowY: 'auto' }}>
+      <InfiniteScroll
+        loadMore={fetchPayments}
+        initialLoad={false}
+        pageStart={0}
+        hasMore={hasMore}
+        useWindow={false}
+        loader={<Spin />}
+      >
+        <DailyList payments={payments} onClickModify={modifyModalHanlder} />
+      </InfiniteScroll>
       <ModifyPaymentModal
         visible={showModifyModal}
         initialValues={modifyModalInitialValues}
@@ -42,7 +51,7 @@ const PaymentList = ({ loadPayments }) => {
           setShowModifyModal(false);
         }}
       />
-    </>
+    </div>
   ) : (
     <Empty
       description={initPayments ? '지출 내역이 없습니다!' : <Spin />}

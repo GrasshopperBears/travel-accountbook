@@ -29,7 +29,6 @@ const DailyList = ({ payments, onClickModify }) => {
       renderItem={(paymentsInDay) => (
         <DailyPaymentCard paymentsInDay={paymentsInDay} onClickModify={onClickModify} />
       )}
-      style={{ height: '100%', overflowY: 'auto' }}
     />
   );
 };

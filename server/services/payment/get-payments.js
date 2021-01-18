@@ -6,7 +6,7 @@ const getPayments = async (req, res) => {
   const { uid } = req.body;
   const { tripId: trip_id, page } = req.params;
   const parsedPage = parseInt(page);
-  const offset = parsedPage ? PAGE_SIZE * (parsedPage - 1) : 0;
+  const offset = PAGE_SIZE * parsedPage;
   try {
     const { count, rows: payments } = await Payment.findAndCountAll({
       where: { user_id: uid, trip_id },
