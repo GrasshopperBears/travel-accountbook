@@ -33,7 +33,6 @@ const AddPaymentModal = ({ visible, onCancel, addPayment }) => {
       visible={visible}
       onCancel={onCancel}
       title='지출 내역 추가하기'
-      cancelText='취소'
       okText='추가하기'
       onOk={() => {
         form.submit();

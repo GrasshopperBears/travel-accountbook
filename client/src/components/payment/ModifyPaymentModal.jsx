@@ -39,7 +39,6 @@ const ModifyPaymentModal = ({ visible, onCancel, modifyPayment, initialValues })
       visible={visible}
       onCancel={onCancel}
       title='지출 내역 수정하기'
-      cancelText='취소'
       okText='수정하기'
       onOk={() => {
         form.submit();
