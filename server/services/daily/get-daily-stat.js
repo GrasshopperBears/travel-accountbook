@@ -5,7 +5,7 @@ const { Op } = Sequelize;
 
 const getDailyStat = async (req, res) => {
   const { uid } = req.body;
-  const { year: yearParam, month: monthParm } = req.params;
+  const { tripId: trip_id, year: yearParam, month: monthParm } = req.params;
   try {
     const year = parseInt(yearParam);
     const month = parseInt(monthParm);
@@ -19,6 +19,7 @@ const getDailyStat = async (req, res) => {
         date: {
           [Op.between]: [from, to],
         },
+        trip_id,
       },
       group: ['date'],
       raw: true,

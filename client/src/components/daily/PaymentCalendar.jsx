@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { Calendar, message } from 'antd';
 import moment from 'moment';
 import { isMobile } from 'react-device-detect';
@@ -15,6 +16,7 @@ const PaymentCalendar = () => {
     month: new Date().getMonth(),
   });
   const [dailyStat, setDailyStat] = useState({ entry: [], stat: [] });
+  const { selectedTrip } = useSelector((state) => state.trips);
 
   const openDailyPaymentModal = useCallback((date) => {
     setPaymentModal({ visible: true, date });
@@ -26,7 +28,7 @@ const PaymentCalendar = () => {
     setDailyStat(deleteReducer(dailyStat, info));
   };
   const fetchStat = async () => {
-    const response = await service.getDailyStat(dateInfo.year, dateInfo.month);
+    const response = await service.getDailyStat(selectedTrip.id, dateInfo.year, dateInfo.month);
     if (response) setDailyStat(fetchReducer(response));
   };
   const modifyHandler = (prevInfo, newInfo) => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Modal, List, message } from 'antd';
 import moment from 'moment';
 import service from '@services/daily';
@@ -9,6 +10,7 @@ const DailyPaymentModal = ({ info, onCancel, onDelete, onModify }) => {
   const { visible, date } = info;
   const [payments, setPayments] = useState([]);
   const [modifyModalInfo, setModifyModalInfo] = useState({ visible: false, info: undefined });
+  const { selectedTrip } = useSelector((state) => state.trips);
 
   const closeModifyModal = () => {
     setModifyModalInfo({ ...modifyModalInfo, visible: false });
@@ -16,7 +18,7 @@ const DailyPaymentModal = ({ info, onCancel, onDelete, onModify }) => {
 
   const fetchDailyPayment = async () => {
     const { year, month, day } = date;
-    const response = await service.getDailyPayment(year, month, day);
+    const response = await service.getDailyPayment(selectedTrip.id, year, month, day);
     if (response) setPayments(response);
     else message.warning('조회 중 오류가 발생했습니다');
   };

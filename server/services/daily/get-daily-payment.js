@@ -1,11 +1,8 @@
-const Sequelize = require('sequelize');
 const Payment = require('../../models/tables/payment');
-
-const { Op } = Sequelize;
 
 const getDailyPayment = async (req, res) => {
   const { uid } = req.body;
-  const { year: yearParam, month: monthParm, date: dateParam } = req.params;
+  const { tripId: trip_id, year: yearParam, month: monthParm, date: dateParam } = req.params;
   try {
     const year = parseInt(yearParam);
     const month = parseInt(monthParm);
@@ -16,6 +13,7 @@ const getDailyPayment = async (req, res) => {
       where: {
         user_id: uid,
         date: selectedDate,
+        trip_id,
       },
       raw: true,
     });
