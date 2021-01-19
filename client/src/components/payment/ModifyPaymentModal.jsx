@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Modal, Form, message } from 'antd';
 import service from '@services/payment';
-import { modifyPayment } from '@stores/actions';
 import PaymentForm from './PaymentForm';
 
-const ModifyPaymentModal = ({ visible, onCancel, modifyPayment, initialValues }) => {
+const ModifyPaymentModal = ({ visible, onCancel, initialValues, modifyHandler }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,9 +22,9 @@ const ModifyPaymentModal = ({ visible, onCancel, modifyPayment, initialValues })
     if (response && response.success) {
       message.success('수정이 완료되었습니다');
       form.resetFields();
-      onCancel();
-      modifyPayment(initialValues, modifiedData);
       setIsLoading(false);
+      onCancel();
+      modifyHandler(initialValues, modifiedData);
     } else alert('수정 중 오류가 발생했습니다');
   };
 
@@ -61,4 +59,4 @@ const hasDifferentValue = (prevVal, newVal) => {
   return false;
 };
 
-export default connect(null, { modifyPayment })(ModifyPaymentModal);
+export default ModifyPaymentModal;

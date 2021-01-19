@@ -3,12 +3,12 @@ import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroller';
 import { connect, useSelector } from 'react-redux';
 import { Empty, Spin } from 'antd';
-import { loadPayments } from '@stores/actions';
+import { loadPayments, modifyPayment } from '@stores/actions';
 import service from '@services/payment';
 import DailyList from './DailyList';
 import ModifyPaymentModal from './ModifyPaymentModal';
 
-const PaymentList = ({ loadPayments }) => {
+const PaymentList = ({ loadPayments, modifyPayment }) => {
   const [hasMore, setHasMore] = useState(true);
   const [showModifyModal, setShowModifyModal] = useState(false);
   const [modifyModalInitialValues, setModifyModalInitialValues] = useState({});
@@ -50,6 +50,7 @@ const PaymentList = ({ loadPayments }) => {
         onCancel={() => {
           setShowModifyModal(false);
         }}
+        modifyHandler={modifyPayment}
       />
     </div>
   ) : (
@@ -61,4 +62,4 @@ const PaymentList = ({ loadPayments }) => {
   );
 };
 
-export default connect(null, { loadPayments })(PaymentList);
+export default connect(null, { loadPayments, modifyPayment })(PaymentList);

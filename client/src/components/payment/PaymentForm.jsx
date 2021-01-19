@@ -42,7 +42,7 @@ const PaymentForm = ({ form, initialValues, onFinish }) => {
           name='amount'
           rules={[
             { required: true, message: '얼마를 사용했는지 알려주세요!' },
-            { type: 'integer', min: 0, message: '유효하지 않은 정보입니다' },
+            { type: 'integer', min: 1, message: '유효하지 않은 정보입니다' },
           ]}
         >
           <InputNumber style={{ width: '100%' }} />
