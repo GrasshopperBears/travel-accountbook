@@ -10,16 +10,12 @@ const getDailyPayment = async (req, res) => {
     const year = parseInt(yearParam);
     const month = parseInt(monthParm);
     const date = parseInt(dateParam);
-    const from = new Date(year, month, date);
-    const to = new Date(year, month, date + 1);
+    const selectedDate = new Date(year, month, date);
 
     const payments = await Payment.findAll({
-      // attributes: ['date', [Sequelize.fn('sum', Sequelize.col('amount')), 'amount_per_date']],
       where: {
         user_id: uid,
-        date: {
-          [Op.between]: [from, to],
-        },
+        date: selectedDate,
       },
       raw: true,
     });

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Card, List, Row, Col } from 'antd';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import styled from 'styled-components';
 import PaymentInfo from './PaymentInfo';
+import { deletePayment } from '@stores/actions';
 import 'moment/locale/ko';
 
-const DailyPaymentCard = ({ paymentsInDay, onClickModify }) => {
+const DailyPaymentCard = ({ paymentsInDay, onClickModify, deletePayment }) => {
   const [dailyTotal, setDailyTotal] = useState(0);
   useEffect(() => {
     setDailyTotal(
@@ -20,7 +22,12 @@ const DailyPaymentCard = ({ paymentsInDay, onClickModify }) => {
       <List
         dataSource={paymentsInDay}
         renderItem={(payment) => (
-          <PaymentInfo key={payment.id} info={payment} onClickModify={onClickModify} />
+          <PaymentInfo
+            key={payment.id}
+            info={payment}
+            onClickModify={onClickModify}
+            onDelete={deletePayment}
+          />
         )}
       />
     </DailyCard>
@@ -60,4 +67,4 @@ const CardHeaderCol = styled(Col)`
   padding: 10px 22px;
 `;
 
-export default DailyPaymentCard;
+export default connect(null, { deletePayment })(DailyPaymentCard);

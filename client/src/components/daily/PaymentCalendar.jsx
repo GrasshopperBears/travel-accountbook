@@ -1,21 +1,30 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Calendar, message } from 'antd';
+import { Calendar, message, Modal } from 'antd';
 import { isMobile } from 'react-device-detect';
 import styled from 'styled-components';
 import service from '@services/daily';
 import CenterDiv from '@components/common/CenterDiv';
 import { CreditCardOutlined } from '@ant-design/icons';
+import DailyPaymentModal from './DailyPaymentModal';
 
 const PaymentCalendar = () => {
+  const [paymentModal, setPaymentModal] = useState({ visible: false, date: undefined });
   const [dateInfo, setDateInfo] = useState({
     year: new Date().getFullYear(),
     month: new Date().getMonth(),
   });
   const [dailyStat, setDailyStat] = useState({ entry: [], stat: {} });
 
-  const selectDate = () => {};
+  const openDailyPaymentModal = useCallback((date) => {
+    setPaymentModal({ visible: true, date });
+  }, []);
+  const closeDailyPaymentModal = useCallback(() => {
+    setPaymentModal({ ...paymentModal, visible: false });
+  }, [paymentModal]);
+
   const fetchStat = async () => {
     const response = await service.getDailyStat(dateInfo.year, dateInfo.month);
+    console.log(response);
     if (response) {
       setDailyStat(
         response.reduce(
@@ -34,7 +43,7 @@ const PaymentCalendar = () => {
 
   const dateSelectHandler = (val) => {
     const date = momentToDateObj(val);
-    if (date.year === dateInfo.year && date.month === dateInfo.month) selectDate(date);
+    if (date.year === dateInfo.year && date.month === dateInfo.month) openDailyPaymentModal(date);
     else setDateInfo({ year: date.year, month: date.month });
   };
   const monthChangeHandler = useCallback((_, mode) => {
@@ -59,11 +68,14 @@ const PaymentCalendar = () => {
   }, [dateInfo]);
 
   return (
-    <Calendar
-      onSelect={dateSelectHandler}
-      onPanelChange={monthChangeHandler}
-      dateCellRender={dateCellRenderer}
-    />
+    <>
+      <Calendar
+        onSelect={dateSelectHandler}
+        onPanelChange={monthChangeHandler}
+        dateCellRender={dateCellRenderer}
+      />
+      <DailyPaymentModal info={paymentModal} onCancel={closeDailyPaymentModal} />
+    </>
   );
 };
 

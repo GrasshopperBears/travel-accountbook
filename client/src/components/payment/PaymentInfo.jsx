@@ -1,12 +1,11 @@
 import React from 'react';
 import { Descriptions, Button, Space, message } from 'antd';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { DollarOutlined, CopyOutlined, AimOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import { deletePayment } from '@stores/actions';
 import service from '@services/payment';
 
-const PaymentInfo = ({ info, deletePayment, onClickModify }) => {
+const PaymentInfo = ({ info, onClickModify, onDelete }) => {
   const { init, categories } = useSelector((state) => state.categories);
   const deleteHandler = async () => {
     if (!window.confirm('해당 내역을 삭제하시겠습니까?')) return;
@@ -15,7 +14,7 @@ const PaymentInfo = ({ info, deletePayment, onClickModify }) => {
       const { success } = response;
       if (success) {
         message.success('결제 내역이 삭제되었습니다');
-        deletePayment(info);
+        onDelete(info);
       } else alert('삭제 중 오류가 발생했습니다');
     } else alert('삭제 중 오류가 발생했습니다');
   };
@@ -80,4 +79,4 @@ const PaymentDescriptions = styled(Descriptions)`
   }
 `;
 
-export default connect(null, { deletePayment })(PaymentInfo);
+export default PaymentInfo;
