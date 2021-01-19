@@ -57,8 +57,8 @@ const PaymentCalendar = () => {
   };
 
   useEffect(() => {
-    fetchStat();
-  }, [dateInfo]);
+    if (selectedTrip) fetchStat();
+  }, [dateInfo, selectedTrip]);
 
   return (
     <>

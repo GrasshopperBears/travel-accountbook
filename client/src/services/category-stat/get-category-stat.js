@@ -1,7 +1,7 @@
 import apiRequest from '../api-request';
 
-const getCategoryStat = async () => {
-  const { data } = await apiRequest.get(`/category-stat`);
+const getCategoryStat = async (tripId) => {
+  const { data } = await apiRequest.get(`/category-stat/${tripId}`);
   return data;
 };
 

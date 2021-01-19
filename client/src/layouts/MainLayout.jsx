@@ -56,7 +56,7 @@ const MainLayout = ({ setTrips, children }) => {
         <Drawer visible={showSidebar} onClose={onCloseSidebar} placement='left' closeIcon={''}>
           <Sidebar isMobile closeSidebar={onCloseSidebar} />
         </Drawer>
-        <Layout>
+        <Layout style={{ width: '100vw', height: '100vh' }}>
           <Header>
             <LayoutHeader isMobile onClickMenu={onShowSidebar} />
           </Header>

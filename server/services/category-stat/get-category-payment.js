@@ -3,7 +3,7 @@ const Payment = require('../../models/tables/payment');
 
 const getCategoryPayment = async (req, res) => {
   const { uid } = req.body;
-  const { categoryId: category_id } = req.params;
+  const { tripId: trip_id, categoryId: category_id } = req.params;
 
   try {
     const payments = await Payment.findAll({
@@ -11,6 +11,7 @@ const getCategoryPayment = async (req, res) => {
       where: {
         user_id: uid,
         category_id,
+        trip_id,
       },
       // raw: true,
     });
