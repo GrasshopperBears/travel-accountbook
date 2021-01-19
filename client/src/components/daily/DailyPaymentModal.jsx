@@ -3,7 +3,7 @@ import { Modal, List, message } from 'antd';
 import service from '@services/daily';
 import PaymentInfo from '@components/payment/PaymentInfo';
 
-const DailyPaymentModal = ({ info, onCancel }) => {
+const DailyPaymentModal = ({ info, onCancel, onDelete }) => {
   const { visible, date } = info;
   const [payments, setPayments] = useState([]);
 
@@ -20,6 +20,7 @@ const DailyPaymentModal = ({ info, onCancel }) => {
         if (payment.id !== info.id) acc.push(payment);
         return acc;
       }, []),
+      onDelete(info),
     );
   };
 

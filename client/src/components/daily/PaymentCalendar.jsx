@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Calendar, message, Modal } from 'antd';
+import { Calendar, message } from 'antd';
 import { isMobile } from 'react-device-detect';
 import styled from 'styled-components';
 import service from '@services/daily';
@@ -13,7 +13,7 @@ const PaymentCalendar = () => {
     year: new Date().getFullYear(),
     month: new Date().getMonth(),
   });
-  const [dailyStat, setDailyStat] = useState({ entry: [], stat: {} });
+  const [dailyStat, setDailyStat] = useState({ entry: [], stat: [] });
 
   const openDailyPaymentModal = useCallback((date) => {
     setPaymentModal({ visible: true, date });
@@ -21,10 +21,29 @@ const PaymentCalendar = () => {
   const closeDailyPaymentModal = useCallback(() => {
     setPaymentModal({ ...paymentModal, visible: false });
   }, [paymentModal]);
+  const deleteHandler = (info) => {
+    setDailyStat(
+      dailyStat.entry.reduce(
+        (acc, date, idx) => {
+          const { entry, stat } = acc;
+          if (date === info.date) {
+            const newAmount = dailyStat.stat[idx] - info.amount;
+            if (!newAmount) return acc;
+            entry.push(date);
+            stat.push(newAmount);
+          } else {
+            entry.push(date);
+            stat.push(dailyStat.stat[idx]);
+          }
+          return { entry, stat };
+        },
+        { entry: [], stat: [] },
+      ),
+    );
+  };
 
   const fetchStat = async () => {
     const response = await service.getDailyStat(dateInfo.year, dateInfo.month);
-    console.log(response);
     if (response) {
       setDailyStat(
         response.reduce(
@@ -74,7 +93,7 @@ const PaymentCalendar = () => {
         onPanelChange={monthChangeHandler}
         dateCellRender={dateCellRenderer}
       />
-      <DailyPaymentModal info={paymentModal} onCancel={closeDailyPaymentModal} />
+      <DailyPaymentModal info={paymentModal} onCancel={closeDailyPaymentModal} onDelete={deleteHandler} />
     </>
   );
 };
