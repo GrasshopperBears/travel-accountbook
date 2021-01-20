@@ -51,7 +51,13 @@ const PaymentInfo = ({ info, onClickModify, onDelete }) => {
       >{`${info.amount.toLocaleString()}원`}</Descriptions.Item>
       {info.location_name && (
         <Descriptions.Item label={<AimOutlined />} span={info.category_id ? 1 : 2}>
-          {info.location_name}
+          {info.place_url ? (
+            <a href={info.place_url} target='_blank' rel='noopener noreferrer'>
+              {info.location_name}
+            </a>
+          ) : (
+            info.location_name
+          )}
         </Descriptions.Item>
       )}
       {init && info.category_id && (
