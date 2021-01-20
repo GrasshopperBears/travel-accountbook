@@ -12,7 +12,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
 
-const MainLayout = ({ setTrips, children }) => {
+const MainLayout = ({ setTrips, children, isFullpage = false }) => {
   const { init, selectedTrip } = useSelector((state) => state.trips);
   const [showSidebar, setShowSidebar] = useState(false);
   const [showAddPaymentModal, setShowAddPaymentModal] = useState(false);
@@ -48,7 +48,7 @@ const MainLayout = ({ setTrips, children }) => {
             <Header>
               <LayoutHeader />
             </Header>
-            <BrowserMainContent>{children}</BrowserMainContent>
+            <BrowserMainContent isFullpage={isFullpage}>{children}</BrowserMainContent>
           </Layout>
         </Layout>
       </BrowserView>
@@ -61,7 +61,7 @@ const MainLayout = ({ setTrips, children }) => {
             <LayoutHeader isMobile onClickMenu={onShowSidebar} />
           </Header>
           {selectedTrip && <Title>{selectedTrip.title}</Title>}
-          <MobileMainContent>{children}</MobileMainContent>
+          <MobileMainContent isFullpage={isFullpage}>{children}</MobileMainContent>
         </Layout>
       </MobileView>
       <AddPaymentBtn
@@ -92,16 +92,17 @@ const BrowserMainContent = styled(Content)`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 3rem 20%;
+  padding: ${({ isFullpage }) => (isFullpage ? '0' : '3rem 20%')};
   margin: 0;
 `;
 const MobileMainContent = styled(Content)`
-  padding: 1rem 1.4rem;
+  padding: ${({ isFullpage }) => (isFullpage ? '0' : '1rem 1.4rem')};
   width: 100%;
   margin: 0;
 `;
 const AddPaymentBtn = styled(Button)`
   position: fixed;
+  z-index: 10;
   right: ${({ isMobile }) => (isMobile ? '2rem' : '4%')};
   bottom: ${({ isMobile }) => (isMobile ? '2rem' : '3rem')};
 `;
