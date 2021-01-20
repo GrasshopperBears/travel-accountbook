@@ -100,10 +100,10 @@ const CountOptions = ({ defaultValue = '10', onChangeNumber }) => {
 const CountCard = styled(Card)`
   position: fixed;
   z-index: 10;
-  right: ${isMobile ? '' : '3rem'};
+  right: ${isMobile ? '0' : '3rem'};
 
   .ant-card-body {
-    padding: 15px 50px;
+    padding: ${isMobile ? '20px' : '15px 50px'};
   }
 `;
 const InfoWindow = styled(Card)`
