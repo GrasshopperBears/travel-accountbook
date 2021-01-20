@@ -1,4 +1,7 @@
+const Sequelize = require('sequelize');
 const Payment = require('../../models/tables/payment');
+
+const { Op } = Sequelize;
 
 const getMapPayments = async (req, res) => {
   const { uid } = req.body;
@@ -13,8 +16,8 @@ const getMapPayments = async (req, res) => {
 
   try {
     const payments = await Payment.findAndCountAll({
-      attributes: ['id', 'title', 'amount', 'location_latlng', 'place_url'],
-      where: { user_id: uid, trip_id },
+      attributes: ['id', 'title', 'amount', 'location_latlng', 'place_url', 'location_name'],
+      where: { user_id: uid, trip_id, location_latlng: { [Op.ne]: null } },
       limit: parsedCount,
     });
     res.json({ payments });
