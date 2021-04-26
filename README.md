@@ -52,8 +52,6 @@ REACT_APP_KAKAO_CALLBACK_URL=
 ---------------------------------
 ```
 
-
-
 ## 서비스 소개
 
 #### 메인 화면
@@ -68,8 +66,6 @@ REACT_APP_KAKAO_CALLBACK_URL=
 
 목록은 일 별로 묶어서 보여지고 입력한 정보들을 확인할 수 있습니다.
 
-
-
 #### 여행 추가
 
 ![여행 추가](https://user-images.githubusercontent.com/34625313/105060460-c971e180-5abb-11eb-90e4-e92969e5dd7a.png)
@@ -78,8 +74,6 @@ REACT_APP_KAKAO_CALLBACK_URL=
 
 여행 이름과 여행 장소를 지정할 수 있습니다.
 
-
-
 #### 카테고리 관리
 
 ![카테고리 관리](https://user-images.githubusercontent.com/34625313/105061660-1b673700-5abd-11eb-958b-5d5b2dd45fc3.png)
@@ -87,8 +81,6 @@ REACT_APP_KAKAO_CALLBACK_URL=
 <img src="https://user-images.githubusercontent.com/34625313/105066284-1062d580-5ac2-11eb-8130-3a409158afee.jpg" style="width: 50%;" />
 
 헤더의 카테고리 수정을 통해 카테고리를 관리할 수 있습니다. 수정 및 삭제도 가능합니다.
-
-
 
 #### 내역 추가
 
@@ -100,15 +92,11 @@ REACT_APP_KAKAO_CALLBACK_URL=
 
 장소의 경우 검색 및 선택할 수 있습니다.
 
-
-
 #### 달력으로 보기
 
 ![달력으로 보기](https://user-images.githubusercontent.com/34625313/105060463-c971e180-5abb-11eb-8938-74c5db7c8853.png)
 
 <img src="https://user-images.githubusercontent.com/34625313/105066272-0f31a880-5ac2-11eb-8a10-6fb14ca147a6.jpg" style="width: 50%;" />
-
-
 
 #### 일별 지출 내역 확인
 
@@ -116,15 +104,12 @@ REACT_APP_KAKAO_CALLBACK_URL=
 
 <img src="https://user-images.githubusercontent.com/34625313/105067352-f4abff00-5ac2-11eb-8565-e1fa359ee160.jpg" style="width: 50%;" />
 
-
-
 #### 카테고리 별 통계 확인
 
 ![카테고리별](https://user-images.githubusercontent.com/34625313/105060467-caa30e80-5abb-11eb-87d6-43acfcdf12ed.png)
 
-
-
 #### 장소 별 확인
 
-*추후 구현 예정입니다.*
+![장소별 웹](https://user-images.githubusercontent.com/34625313/116019525-56aa7080-a67f-11eb-87a7-75e674b7fa9d.png)
 
+<img src="https://user-images.githubusercontent.com/34625313/116019528-58743400-a67f-11eb-87a4-32f6d20acf7c.jpg" style="width: 50%;" />
