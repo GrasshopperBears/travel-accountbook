@@ -77,12 +77,6 @@ const PaymentInfo = ({ info, onClickModify, onDelete }) => {
 const PaymentDescriptions = styled(Descriptions)`
   border-bottom: '1px solid #e8e8e8';
   padding-top: '0.8rem';
-
-  svg,
-  .ant-descriptions-item-label > span {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 export default PaymentInfo;
